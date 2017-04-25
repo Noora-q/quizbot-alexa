@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/Noora-q/quizbot-alexa#readme",
   "devDependencies": {
+    "alexa-sdk": "^1.0.9",
     "aws-lambda-mock-context": "^3.0.1",
+    "bespoken-tools": "^0.9.35",
     "chai": "^3.5.0",
     "mocha": "^3.3.0"
   }
