@@ -25,3 +25,10 @@ AMAZON.HelpIntent how do I start
 AMAZON.HelpIntent what
 AMAZON.HelpIntent what do I do
 AMAZON.HelpIntent what do I do now
+
+AMAZON.YesIntent yes
+AMAZON.YesIntent ready
+AMAZON.YesIntent sure
+AMAZON.YesIntent okay
+AMAZON.YesIntent absolutely 
+AMAZON.YesIntent go
