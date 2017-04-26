@@ -37,13 +37,13 @@ it('Launches and then asks user to start', function (done) {
     alexa.spoken('help', function (error, payload) {
       assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
 
-     // Emulate the user saying 'Start'
-      alexa.spoken('Start', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Alright! Let\'s get started!');
+    // Emulate the user saying 'Help'
+      alexa.spoken('Test', function (error, payload) {
+       assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin.');
 
-       // Emulate the user saying 'Help'
-        alexa.spoken('Test', function (error, payload) {
-          assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin.');
+       // Emulate the user saying 'Start'
+       alexa.spoken('Start', function (error, payload) {
+         assert.include(payload.response.outputSpeech.ssml, 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?');
 
          done();
         });
@@ -51,3 +51,6 @@ it('Launches and then asks user to start', function (done) {
     });
   });
 });
+// it('Asks a question and handles an answer', function (done) {
+//   done();
+// });
