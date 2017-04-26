@@ -28,22 +28,26 @@ afterEach(function(done) {
     });
 });
 
-it('Launches and then asks first question', function (done) {
-    // Launch the skill via sending it a LaunchRequest
-    alexa.launched(function (error, payload) {
-        // Check that the introduction is play as outputSpeech
-        console.log(payload);
-        assert.include(payload.response.outputSpeech.ssml, 'Hello World!');
+it('Launches and then asks user to start', function (done) {
+  // Launch the skill via sending it a LaunchRequest
+  alexa.launched(function (error, payload) {
+    assert.include(payload.response.outputSpeech.ssml, 'Welcome to Quiz bot! Say start when you\'re ready.');
 
+   // Emulate the user saying 'Help'
+    alexa.spoken('help', function (error, payload) {
+      assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
 
-        // Emulate the user saying 'Play'
-        // alexa.spoken('Play', function (error, payload) {
-        //     // Ensure the correct directive and audioItem is returned
-        //     assert.equal(payload.response.directives[0].type, 'AudioPlayer.Play');
-        //     assert.equal(payload.response.directives[0].audioItem.stream.token, '0');
-        //     assert.equal(payload.response.directives[0].audioItem.stream.url, 'https://traffic.libsyn.com/bespoken/TIP103.mp3?dest-id=432208');
-        //     done();
-        // });
-        done();
+     // Emulate the user saying 'Start'
+      alexa.spoken('Start', function (error, payload) {
+        assert.include(payload.response.outputSpeech.ssml, 'Alright! Let\'s get started!');
+
+       // Emulate the user saying 'Help'
+        alexa.spoken('Test', function (error, payload) {
+          assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin.');
+
+         done();
+        });
+      });
     });
+  });
 });
