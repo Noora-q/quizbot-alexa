@@ -51,7 +51,15 @@ it('Launches and then asks user to start', function (done) {
           alexa.spoken('No', function (error, payload){
            assert.include(payload.response.outputSpeech.ssml, 'Say help if you need assistance, or stop to exit the quiz.');
 
+           alexa.spoken('three', function (error, payload){
+             console.log('PURPLE')
+             console.log(payload)
+             console.log('guessAnswer')
+             console.log(parseInt(this.event.request.intent.slots.number.value))
+             assert.include(payload.response.outputSpeech.ssml, 'That is correct.')
+
            done();
+            });
            });
          });
         });

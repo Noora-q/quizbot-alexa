@@ -41,6 +41,17 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   "AMAZON.NoIntent": function () {
     this.emit(':ask', 'Say help if you need assistance, or stop to exit the quiz.')
   },
+  "AnswerIntent": function() {
+    var guessAnswer = parseInt(this.event.request.intent.slots.number.value);
+    console.log('guessAnswer')
+    console.log(guessAnswer)
+    var correctAnswer = 'three'//this.attributes[""];
+    if (guessAnswer === correctAnswer) {
+      this.emit(':tell', "That is correct.")
+    } else {
+      this.emit(':tell', "Wrong answer. The correct is 3.")
+    }
+  },
   "Unhandled": function () {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say help if you need assistance.');
   }
