@@ -30,5 +30,11 @@ AMAZON.YesIntent yes
 AMAZON.YesIntent ready
 AMAZON.YesIntent sure
 AMAZON.YesIntent okay
-AMAZON.YesIntent absolutely 
+AMAZON.YesIntent absolutely
 AMAZON.YesIntent go
+
+AMAZON.NoIntent no
+AMAZON.NoIntent not ready
+AMAZON.NoIntent nah
+AMAZON.NoIntent not yet
+AMAZON.NoIntent nope

@@ -36,7 +36,10 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     this.emit(':ask', 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?'); // Equivalent to the Start Mode NewSession handler
   },
   "AMAZON.YesIntent": function () {
-    this.emit(':ask', 'Question one. If 2x = 6, What is the value of x?')
+    this.emit(':ask', 'Question one. If 2x = 6, what is the value of x?')
+  },
+  "AMAZON.NoIntent": function () {
+    this.emit(':ask', 'Say help if you need assistance, or stop to exit the quiz.')
   },
   "Unhandled": function () {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say help if you need assistance.');

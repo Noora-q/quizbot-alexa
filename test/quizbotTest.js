@@ -46,9 +46,13 @@ it('Launches and then asks user to start', function (done) {
          assert.include(payload.response.outputSpeech.ssml, 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?');
 
          alexa.spoken('Yes', function (error, payload){
-          assert.include(payload.response.outputSpeech.ssml, 'Question one. If 2x = 6, What is the value of x?');
+          assert.include(payload.response.outputSpeech.ssml, 'Question one. If 2x = 6, what is the value of x?');
+
+          alexa.spoken('No', function (error, payload){
+           assert.include(payload.response.outputSpeech.ssml, 'Say help if you need assistance, or stop to exit the quiz.');
 
            done();
+           });
          });
         });
       });
