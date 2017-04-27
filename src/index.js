@@ -13,6 +13,10 @@ exports.handler = function(event, context, callback){
   alexa_one.execute();
 };
 
+const handlers = {
+
+}
+
 var newSessionHandlers = {
 
   "LaunchRequest": function () {
