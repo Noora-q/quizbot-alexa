@@ -12,6 +12,7 @@
     "alexa-app-server": "^3.0.1",
     "bespoken-tools": "^0.9.35",
     "chai": "^3.5.0",
+    "chai-spies": "^0.7.1",
     "mocha": "^3.3.0"
   },
   "dependencies": {
