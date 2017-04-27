@@ -61,6 +61,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     
     if (guessAnswer === correctAnswer) {
       score++;
+      // TODO Fix this.
       if (questionNumber === QUESTION_TOTAL + 1) {
         this.handler.state = "";
         this.emit(':ask', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
