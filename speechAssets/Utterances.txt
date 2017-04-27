@@ -1,8 +1,16 @@
+AMAZON.HelpIntent help
+AMAZON.HelpIntent help me
+AMAZON.HelpIntent how do I play
+AMAZON.HelpIntent how do I start
+AMAZON.HelpIntent what
+AMAZON.HelpIntent what do I do
+AMAZON.HelpIntent what do I do now
+
 AnswerIntent the answer is {Answer}
 AnswerIntent my answer is {Answer}
 AnswerIntent is it {Answer}
 AnswerIntent {Answer} is my answer
-AnswerIntent {Answer}
+AnswerIntent three
 
 AMAZON.StartOverIntent start game
 AMAZON.StartOverIntent new game
@@ -18,10 +26,15 @@ DontKnowIntent i don't know this question
 DontKnowIntent i don't know that one
 DontKnowIntent dunno
 
-AMAZON.HelpIntent help
-AMAZON.HelpIntent help me
-AMAZON.HelpIntent how do I play
-AMAZON.HelpIntent how do I start
-AMAZON.HelpIntent what
-AMAZON.HelpIntent what do I do
-AMAZON.HelpIntent what do I do now
+AMAZON.YesIntent yes
+AMAZON.YesIntent ready
+AMAZON.YesIntent sure
+AMAZON.YesIntent okay
+AMAZON.YesIntent absolutely
+AMAZON.YesIntent go
+
+AMAZON.NoIntent no
+AMAZON.NoIntent not ready
+AMAZON.NoIntent nah
+AMAZON.NoIntent not yet
+AMAZON.NoIntent nope
