@@ -16,6 +16,10 @@ exports.handler = function(event, context, callback){
   alexa_one.execute();
 };
 
+const handlers = {
+
+}
+
 var newSessionHandlers = {
 
   "LaunchRequest": function () {
@@ -51,8 +55,10 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   },
 
   "AnswerIntent": function() {
+
     var guessAnswer = this.event.request.intent.slots.Answer.value;
     var correctAnswer = questions[currentQuestion][0];
+    
     if (guessAnswer === correctAnswer) {
       score++;
       if (questionNumber === QUESTION_TOTAL + 1) {
