@@ -38,7 +38,7 @@ describe('launching the quiz', function (done){
     });
   });
 
-  it('can reply with a help message when the user asks for help', function (done) {
+  it('can reply with help message when the user asks for help', function (done) {
     // Emulate the user saying 'Help'
     alexa.spoken('help', function (error, payload) {
       assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
