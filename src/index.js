@@ -42,10 +42,10 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     this.emit(':ask', 'Say help if you need assistance, or stop to exit the quiz.')
   },
   "AnswerIntent": function() {
-    var guessAnswer = parseInt(this.event.request.intent.slots.number.value);
+    var guessAnswer = parseInt(this.event.request.intent.slots.Answer.value);
     console.log('guessAnswer')
     console.log(guessAnswer)
-    var correctAnswer = 'three'//this.attributes[""];
+    var correctAnswer = 'Answer'
     if (guessAnswer === correctAnswer) {
       this.emit(':tell', "That is correct.")
     } else {
@@ -57,5 +57,3 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   }
 
 });
-
- // 'Question 1. If 2x = 6, what is the value of x?'

@@ -1,3 +1,11 @@
+AMAZON.HelpIntent help
+AMAZON.HelpIntent help me
+AMAZON.HelpIntent how do I play
+AMAZON.HelpIntent how do I start
+AMAZON.HelpIntent what
+AMAZON.HelpIntent what do I do
+AMAZON.HelpIntent what do I do now
+
 AnswerIntent the answer is {Answer}
 AnswerIntent my answer is {Answer}
 AnswerIntent is it {Answer}
@@ -17,14 +25,6 @@ DontKnowIntent who knows
 DontKnowIntent i don't know this question
 DontKnowIntent i don't know that one
 DontKnowIntent dunno
-
-AMAZON.HelpIntent help
-AMAZON.HelpIntent help me
-AMAZON.HelpIntent how do I play
-AMAZON.HelpIntent how do I start
-AMAZON.HelpIntent what
-AMAZON.HelpIntent what do I do
-AMAZON.HelpIntent what do I do now
 
 AMAZON.YesIntent yes
 AMAZON.YesIntent ready
