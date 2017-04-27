@@ -9,6 +9,7 @@
   "author": "@ayanit1, @AliceArmstrong, @aleximm1, @Noora-q",
   "license": "ISC",
   "devDependencies": {
+    "alexa-app-server": "^3.0.1",
     "bespoken-tools": "^0.9.35",
     "chai": "^3.5.0",
     "mocha": "^3.3.0"

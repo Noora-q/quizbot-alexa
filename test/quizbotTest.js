@@ -33,6 +33,7 @@ it('Launches and then asks user to start', function (done) {
   alexa.launched(function (error, payload) {
     assert.include(payload.response.outputSpeech.ssml, 'Welcome to Quiz bot! Say start when you\'re ready.');
 
+<<<<<<< HEAD
     // Emulate the user saying 'Help'
     alexa.spoken('help', function (error, payload) {
       assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
@@ -46,6 +47,37 @@ it('Launches and then asks user to start', function (done) {
           assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin.');
 
           done();
+=======
+   // Emulate the user saying 'Help'
+    alexa.spoken('help', function (error, payload) {
+      assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
+
+    // Emulate the user saying 'Help'
+      alexa.spoken('Test', function (error, payload) {
+       assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin.');
+
+       // Emulate the user saying 'Start'
+       alexa.spoken('Start', function (error, payload) {
+         assert.include(payload.response.outputSpeech.ssml, 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?');
+
+         alexa.spoken('Yes', function (error, payload){
+          assert.include(payload.response.outputSpeech.ssml, 'Question one. If 2x = 6, what is the value of x?');
+
+          alexa.spoken('No', function (error, payload){
+           assert.include(payload.response.outputSpeech.ssml, 'Say help if you need assistance, or stop to exit the quiz.');
+
+           alexa.spoken('three', function (error, payload){
+             console.log('PURPLE')
+             console.log(payload)
+             console.log('guessAnswer')
+             console.log(parseInt(this.event.request.intent.slots.number.value))
+             assert.include(payload.response.outputSpeech.ssml, 'That is correct.')
+
+           done();
+            });
+           });
+         });
+>>>>>>> 65486d2fb9307e90db575939a1facfd0e2c79a47
         });
       });
     });
