@@ -5,6 +5,7 @@ var states = {
     START: "_STARTMODE", // Entry point, start the game.
     HELP: "_HELPMODE" // The user is asking for help.
 };
+var questions = {"If 2x = 6, what is the value of x?": ['3', '6', '2.5', '12'], 'If 10x = 10, what is the value of x?': ['1', '10', '100', '1000']}
 
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
@@ -20,7 +21,7 @@ var newSessionHandlers = {
   },
   "AMAZON.StartOverIntent": function() {
     this.handler.state = states.TRIVIA;
-    this.emitWithState('NewSession');
+    this.emitWithState('QuestionIntent');
   },
   "AMAZON.HelpIntent": function() {
     this.emit(':ask', 'To begin the quiz, say start.');
@@ -29,33 +30,34 @@ var newSessionHandlers = {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say start to begin.');
   }
 };
-
+var questionIndex
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
 
-  "NewSession": function () {
-    this.emit(':ask', 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?'); // Equivalent to the Start Mode NewSession handler
+  // "NewSession": function () {
+  //   this.emit(':ask', 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?'); // Equivalent to the Start Mode NewSession handler
+  // },
+
+  "QuestionIntent": function () {
+    questionIndex = Math.floor(Math.random())
+    // console.log(randomQuestion)
+    this.emit(':ask', 'Question one. ' + questions[questionIndex][0])
+
+  // "AMAZON.NoIntent": function () {
+  //   this.emit(':ask', 'Say help if you need assistance, or stop to exit the quiz.')
   },
-  "AMAZON.YesIntent": function () {
-    this.emit(':ask', 'Question one. If 2x = 6, what is the value of x?')
-  },
-  "AMAZON.NoIntent": function () {
-    this.emit(':ask', 'Say help if you need assistance, or stop to exit the quiz.')
-  },
+
   "AnswerIntent": function() {
-    var guessAnswer = parseInt(this.event.request.intent.slots.number.value);
-    console.log('guessAnswer')
-    console.log(guessAnswer)
-    var correctAnswer = 'three'//this.attributes[""];
+    var guessAnswer = this.event.request.intent.slots.Answer.value;
+    var correctAnswer = questions[questionIndex][1]
     if (guessAnswer === correctAnswer) {
       this.emit(':tell', "That is correct.")
     } else {
-      this.emit(':tell', "Wrong answer. The correct is 3.")
+      this.emit(':tell', "Wrong answer. The correct is " + correctAnswer)
     }
   },
+
   "Unhandled": function () {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say help if you need assistance.');
   }
 
 });
-
- // 'Question 1. If 2x = 6, what is the value of x?'
