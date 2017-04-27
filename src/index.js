@@ -1,10 +1,13 @@
 var Alexa = require('alexa-sdk');
 var APP_ID = undefined;
+var QUESTION_TOTAL = 5
+var questionNumber
 var states = {
-    TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
-    START: "_STARTMODE", // Entry point, start the game.
-    HELP: "_HELPMODE" // The user is asking for help.
+  TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
+  START: "_STARTMODE", // Entry point, start the game.
+  HELP: "_HELPMODE" // The user is asking for help.
 };
+var questions = {"If 2x = 6, what is the value of x?": ['3', '6', '2.5', '12'], 'If 10x = 10, what is the value of x?': ['1', '10', '100', '1000']}
 
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
@@ -23,40 +26,60 @@ var newSessionHandlers = {
     this.emit(':ask', 'Welcome to Quiz bot! Say start when you\'re ready.');
   },
   "AMAZON.StartOverIntent": function() {
+    questionNumber = 1
     this.handler.state = states.TRIVIA;
-    this.emitWithState('NewSession');
+    this.emitWithState('QuestionIntent', "Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.");
   },
   "AMAZON.HelpIntent": function() {
     this.emit(':ask', 'To begin the quiz, say start.');
   },
-  "Unhandled": function () {
+  "Unhandled": function() {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say start to begin.');
   }
 };
+var currentQuestion
+var score = 0
+function getQuestion() {
+  var keys = Object.keys(questions);
+  var rnd = Math.floor(Math.random() * keys.length);
+  var key = keys[rnd];
+  return key;
+}
 
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
 
-  "NewSession": function () {
-    this.emit(':ask', 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?'); // Equivalent to the Start Mode NewSession handler
+  "QuestionIntent": function(lastQuestionResult) {
+    currentQuestion = getQuestion();
+    this.emit(':ask', lastQuestionResult + 'Question ' + questionNumber + '. ' + currentQuestion);
+    questionNumber++;
   },
-  "AMAZON.YesIntent": function () {
-    this.emit(':ask', 'Question one. If 2x = 6, what is the value of x?')
-  },
-  "AMAZON.NoIntent": function () {
-    this.emit(':ask', 'Say help if you need assistance, or stop to exit the quiz.')
-  },
+
   "AnswerIntent": function() {
-    var guessAnswer = parseInt(this.event.request.intent.slots.Answer.value);
-    console.log('guessAnswer')
-    console.log(guessAnswer)
-    var correctAnswer = 'Answer'
+
+    var guessAnswer = this.event.request.intent.slots.Answer.value;
+    var correctAnswer = questions[currentQuestion][0];
+    
     if (guessAnswer === correctAnswer) {
-      this.emit(':tell', "That is correct.")
+      score++;
+      // TODO Fix this.
+      if (questionNumber === QUESTION_TOTAL + 1) {
+        this.handler.state = "";
+        this.emit(':ask', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
+      } else {
+        this.emitWithState('QuestionIntent', 'Correct!');
+      };
+
     } else {
-      this.emit(':tell', "Wrong answer. The correct is 3.")
+      this.emitWithState('QuestionIntent', 'Incorrect!');
     }
   },
-  "Unhandled": function () {
+
+  "AMAZON.StopIntent": function() {
+    this.handler.state = "";
+    this.emitWithState('LaunchRequest')
+  },
+
+  "Unhandled": function() {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say help if you need assistance.');
   }
 
