@@ -20,3 +20,13 @@ So that I can see how well I did
 I want to be able to know my score
 
 ```
+
+Things to talk about;
+
+* Testing difficulties
+* Technologies
+* MangaHigh API
+* Market research - various edTech consults
+* The nice-to-haves if had more time
+* The real-world application and benefit - Educating, sight-impaired
+* Increasing popularity of Alexa skills - 75% of US homes by 2020
