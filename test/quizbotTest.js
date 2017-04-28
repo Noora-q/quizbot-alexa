@@ -39,7 +39,7 @@ afterEach(function(done) {
   });
 });
 
-describe('launching the quiz', function (done){
+describe('launching the quiz (Menu handlers)', function (done){
 
   it('launches and then asks user to start', function (done) {
     // Launch the skill via sending it a LaunchRequest
@@ -51,17 +51,20 @@ describe('launching the quiz', function (done){
 
   it('can reply with help message when the user asks for help', function (done) {
     // Emulate the user saying 'Help'
-    alexa.spoken('help', function (error, payload) {
-      assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
-      done();
+    alexa.launched(function (error, payload) {
+      alexa.spoken('help', function (error, payload) {
+        assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
+        done();
+      });
     });
   });
 
-  it('can reply with a help message when it doesn\'t understand the user\'s request', function (done) {
-    // Emulate the user saying 'Help'
-    alexa.spoken('Test', function (error, payload) {
-      assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
-      done();
+  it('can reply with the unhandled message when it doesn\'t understand the user\'s request', function (done) {
+    alexa.launched(function (error, payload) {
+      alexa.spoken('Test', function (error, payload) {
+        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot.');
+        done();
+      });
     });
   });
 
@@ -76,7 +79,7 @@ describe('launching the quiz', function (done){
   });
 });
 
-describe('playing the quiz', function (done){
+describe('playing the quiz (Trivia handlers)', function (done){
 
 
   it('can ask the first question', function (done) {
@@ -85,14 +88,71 @@ describe('playing the quiz', function (done){
     //   return 'If 2x = 6, what is the value of x?';
     // }
     // var questionSpy = spy
-    sinon.stub(Object, 'getQuestion').returns('If 2x = 6, what is the value of x?');
+    // sinon.stub(Object, 'getQuestion').returns('If 2x = 6, what is the value of x?');
     alexa.launched(function(error, payload) {
       alexa.spoken('Start', function (error, payload) {
-          assert.include(payload.response.outputSpeech.ssml, 'Question 1. If 2x = 6, what is the value of x?');
-          done();
+        assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
+        done();
+      });
+    });
+  });
+
+    it('moves onto the second question after the user answers the first', function() {
+      alexa.launched(function(error, payload) {
+        alexa.spoken('Start', function (error, payload) {
+            assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
+            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              assert.include(payload.response.outputSpeech.ssml, 'Question 2.');
+              // alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              //   assert.include(payload.response.outputSpeech.ssml, 'Question 3.');
+              //   alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              //     assert.include(payload.response.outputSpeech.ssml, 'medal');
+                  done();
+              //   });
+              // });
+            });
+          });
+        });
+    });
+
+    it('moves onto the third question after the user answers the second', function() {
+      alexa.launched(function(error, payload) {
+        alexa.spoken('Start', function (error, payload) {
+            assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
+            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              assert.include(payload.response.outputSpeech.ssml, 'Question 2.');
+              alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                assert.include(payload.response.outputSpeech.ssml, 'Question 3.');
+              done();
+            });
+          });
         });
       });
     });
+
+    it('moves onto the third question after the user answers the second', function() {
+      alexa.launched(function(error, payload) {
+        alexa.spoken('Start', function (error, payload) {
+            assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
+            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              assert.include(payload.response.outputSpeech.ssml, 'Question 2.');
+              alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                assert.include(payload.response.outputSpeech.ssml, 'Question 3.');
+                alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                  assert.include(payload.response.outputSpeech.ssml, 'Question 3.');
+                  done();
+              });
+            });
+          });
+        });
+      });
+    });
+
+
+
+
+
+
   });
 
 

@@ -1,6 +1,7 @@
 {"intents": [
     {"intent": "AnswerIntent", "slots": [{"name": "Answer", "type": "AMAZON.NUMBER"}]},
     {"intent": "DontKnowIntent"},
+    {"intent": "UnhandledIntent"},
     {"intent": "AMAZON.StartOverIntent"},
     {"intent": "AMAZON.RepeatIntent"},
     {"intent": "AMAZON.HelpIntent"},
