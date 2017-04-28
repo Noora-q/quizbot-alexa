@@ -13,7 +13,8 @@
     "bespoken-tools": "^0.9.35",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
-    "mocha": "^3.3.0"
+    "mocha": "^3.3.0",
+    "sinon": "^2.1.0"
   },
   "dependencies": {
     "alexa-sdk": "^1.0.9"

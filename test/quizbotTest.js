@@ -1,8 +1,19 @@
 var bst = require('bespoken-tools');
-var assert = require('chai').assert;
+
+var sinon = require('sinon');
+var chai = require('chai');
+var spies = require('chai-spies');
+
+chai.use(spies);
+
+var assert = chai.assert;
+var should = chai.should();
+var expect = chai.expect;
 
 var server = null;
 var alexa = null;
+
+
 
 beforeEach(function (done) {
   server = new bst.LambdaServer('index.js', 10000, true);
@@ -53,42 +64,37 @@ describe('launching the quiz', function (done){
       done();
     });
   });
-});
-
-describe('starting the quiz', function (done){
 
   it('can reply with a start message when the user wants to start the game', function (done) {
     // Emulate the user saying 'Start'
     alexa.launched(function(error, payload) {
       alexa.spoken('Start', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x. Ready?');
+        assert.include(payload.response.outputSpeech.ssml, 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.');
         done();
       });
     });
   });
-
-  it('can ask the first question when the user is ready to start', function (done) {
-    alexa.launched(function(error, payload) {
-      alexa.spoken('Start', function (error, payload) {
-        alexa.spoken('Yes', function (error, payload){
-          assert.include(payload.response.outputSpeech.ssml, 'Question one. If 2x = 6, what is the value of x?');
-          done();
-        });
-      });
-    });
-  });
-
-  it('it can offer help if the user is not ready to start', function (done) {
-    alexa.launched(function(error, payload) {
-      alexa.spoken('Start', function (error, payload) {
-        alexa.spoken('No', function (error, payload){
-          assert.include(payload.response.outputSpeech.ssml, 'Say help if you need assistance, or stop to exit the quiz.');
-          done();
-        });
-      });
-    });
-  });
 });
+
+describe('playing the quiz', function (done){
+
+
+  it('can ask the first question', function (done) {
+    // Stub randomness
+    // function getQuestion() {
+    //   return 'If 2x = 6, what is the value of x?';
+    // }
+    // var questionSpy = spy
+    sinon.stub(Object, 'getQuestion').returns('If 2x = 6, what is the value of x?');
+    alexa.launched(function(error, payload) {
+      alexa.spoken('Start', function (error, payload) {
+          assert.include(payload.response.outputSpeech.ssml, 'Question 1. If 2x = 6, what is the value of x?');
+          done();
+        });
+      });
+    });
+  });
+
 
 // describe('dealing with user answers', function(done){
 //
