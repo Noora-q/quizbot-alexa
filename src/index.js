@@ -1,16 +1,19 @@
 var Alexa = require('alexa-sdk');
 var APP_ID = undefined;
 var QUESTION_TOTAL = 5;
+var GOLD_MEDAL = QUESTION_TOTAL;
+var SILVER_MEDAL = 4;
+var BRONZE_MEDAL = 3;
 var questionNumber;
 var states = {
   TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
   START: "_STARTMODE", // Entry point, start the game.
   HELP: "_HELPMODE" // The user is asking for help.
 };
-var questions = require('./questions');
-
+var questions = require('./questions')
 var currentQuestion;
 var score;
+
 function getQuestion() {
   var keys = Object.keys(questions);
   var rnd = Math.floor(Math.random() * keys.length);
@@ -18,8 +21,19 @@ function getQuestion() {
   return key;
 }
 
+function getMedal(score) {
+  if (score === GOLD_MEDAL) {
+    return 'Gold'
+  } else if (score >= SILVER_MEDAL) {
+    return 'Silver'
+  } else if (score >= BRONZE_MEDAL) {
+    return 'Bronze'
+  }
+}
+
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
+  this.handler.state = states.MENU
   alexa_one.registerHandlers(newSessionHandlers, triviaModeHandlers);
   alexa_one.appId = APP_ID;
   alexa_one.execute();
