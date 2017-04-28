@@ -7,7 +7,7 @@ var states = {
   START: "_STARTMODE", // Entry point, start the game.
   HELP: "_HELPMODE" // The user is asking for help.
 };
-var questions = {"If 2x = 6, what is the value of x?": ['3', '6', '2.5', '12'], 'If 10x = 10, what is the value of x?': ['1', '10', '100', '1000']};
+var questions = require('./questions');
 
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
