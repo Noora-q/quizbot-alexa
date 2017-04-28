@@ -16,6 +16,9 @@ AMAZON.StartOverIntent start game
 AMAZON.StartOverIntent new game
 AMAZON.StartOverIntent start
 AMAZON.StartOverIntent start new game
+AMAZON.StartOverIntent start new quiz
+AMAZON.StartOverIntent start quiz
+AMAZON.StartOverIntent new quiz
 
 DontKnowIntent i don't know
 DontKnowIntent don't know

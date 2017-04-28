@@ -6,9 +6,8 @@ var SILVER_MEDAL = 4;
 var BRONZE_MEDAL = 3;
 var questionNumber;
 var states = {
-  TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
-  START: "_STARTMODE", // Entry point, start the game.
-  HELP: "_HELPMODE" // The user is asking for help.
+  TRIVIA: "_TRIVIAMODE",
+  MENU: "_MENUMODE"
 };
 var questions = require('./questions')
 var currentQuestion;
@@ -33,16 +32,26 @@ function getMedal(score) {
 
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
-  this.handler.state = states.MENU
-  alexa_one.registerHandlers(newSessionHandlers, triviaModeHandlers);
+  alexa_one.registerHandlers(handlers, menuHandlers, triviaModeHandlers);
   alexa_one.appId = APP_ID;
   alexa_one.execute();
 };
 
+var handlers =  {
 
-var newSessionHandlers = {
+  "LaunchRequest": function() {
+    this.handler.state = states.MENU
+    this.emitWithState('NewSession')
+  },
 
-  "LaunchRequest": function () {
+  "Unhandled": function() {
+    this.emit(':ask', 'Sorry, I didn\'t catch that, say start to begin.');
+  }
+}
+
+var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
+
+  "NewSession": function () {
     this.emit(':ask', 'Welcome to Quiz bot! Say start when you\'re ready.');
   },
   "AMAZON.StartOverIntent": function() {
@@ -60,7 +69,7 @@ var newSessionHandlers = {
   "Unhandled": function() {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say start to begin.');
   }
-};
+});
 
 
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
@@ -72,32 +81,29 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   },
 
   "AnswerIntent": function() {
-
     var guessAnswer = this.event.request.intent.slots.Answer.value;
     var correctAnswer = questions[currentQuestion][0];
-
     if (guessAnswer === correctAnswer) {
       score++;
-      // TODO Fix this.
       if (questionNumber > QUESTION_TOTAL) {
-        this.handler.state = "";
-        this.emitWithState('MenuIntent', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
+        this.handler.state = states.MENU;
+        this.emitWithState('MenuIntent', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal!');
       } else {
         this.emitWithState('QuestionIntent', 'Correct!');
       }
 
     } else {
       if (questionNumber > QUESTION_TOTAL) {
-        this.handler.state = "";
-        this.emitWithState('MenuIntent', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
+        this.handler.state = states.MENU;
+        this.emitWithState('MenuIntent', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal!');
       } else {
         this.emitWithState('QuestionIntent', 'Incorrect!');
       }
     }
   },
-
+  // TODO add help intent
   "AMAZON.StopIntent": function() {
-    this.handler.state = "";
+    this.handler.state = states.MENU;
     this.emitWithState('MenuIntent', "");
   },
 
