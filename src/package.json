@@ -17,6 +17,7 @@
     "sinon": "^2.1.0"
   },
   "dependencies": {
-    "alexa-sdk": "^1.0.9"
+    "alexa-sdk": "^1.0.9",
+    "request": "^2.81.0"
   }
 }
