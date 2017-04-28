@@ -4,6 +4,8 @@ var QUESTION_TOTAL = 5;
 var GOLD_MEDAL = QUESTION_TOTAL;
 var SILVER_MEDAL = 4;
 var BRONZE_MEDAL = 3;
+var GENERAL_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, please repeat.';
+var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot.'
 var questionNumber;
 var states = {
   TRIVIA: "_TRIVIAMODE",
@@ -44,8 +46,12 @@ var handlers =  {
     this.emitWithState('NewSession')
   },
 
+  "UnhandledIntent": function() {
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE)
+  },
+
   "Unhandled": function() {
-    this.emit(':ask', 'Sorry, I didn\'t catch that, say start to begin.');
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   }
 }
 
@@ -54,23 +60,30 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   "NewSession": function () {
     this.emit(':ask', 'Welcome to Quiz bot! Say start when you\'re ready.');
   },
+
   "AMAZON.StartOverIntent": function() {
     questionNumber = 1;
     score = 0;
     this.handler.state = states.TRIVIA;
     this.emitWithState('QuestionIntent', "Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.");
   },
+
   "AMAZON.HelpIntent": function() {
     this.emit(':ask', 'To begin the quiz, say start.');
   },
+
   "MenuIntent": function(message) {
-    this.emit(':ask', message + ' say start to begin a new game.')
+    this.emit(':ask', message + ' say start to begin a new game or exit to close Quiz bot')
   },
+
+  "UnhandledIntent": function() {
+    this.emit(':ask', MENU_UNHANDLED_MESSAGE);
+  },
+
   "Unhandled": function() {
-    this.emit(':ask', 'Sorry, I didn\'t catch that, say start to begin.');
+    this.emit(':ask', MENU_UNHANDLED_MESSAGE);
   }
 });
-
 
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
 
@@ -107,8 +120,12 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     this.emitWithState('MenuIntent', "");
   },
 
+  "UnhandledIntent": function() {
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE)
+  },
+
   "Unhandled": function() {
-    this.emit(':ask', 'Sorry, I didn\'t catch that, say help if you need assistance.');
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   }
 
 });

@@ -59,11 +59,10 @@ describe('launching the quiz (Menu handlers)', function (done){
     });
   });
 
-  it('can reply with a help message when it doesn\'t understand the user\'s request', function (done) {
-    // Emulate the user saying 'Help'
+  it('can reply with the unhandled message when it doesn\'t understand the user\'s request', function (done) {
     alexa.launched(function (error, payload) {
       alexa.spoken('Test', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'To begin the quiz, say start.');
+        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot.');
         done();
       });
     });
