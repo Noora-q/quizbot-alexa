@@ -1,4 +1,6 @@
 var Alexa = require('alexa-sdk');
+var request = require('request');
+
 var APP_ID = undefined;
 var QUESTION_TOTAL = 5;
 var GOLD_MEDAL = QUESTION_TOTAL;
@@ -24,11 +26,11 @@ function getQuestion() {
 
 function getMedal(score) {
   if (score === GOLD_MEDAL) {
-    return 'Gold'
+    var data = JSON.stringify({'score': score, 'medal': "G"});
   } else if (score >= SILVER_MEDAL) {
-    return 'Silver'
+    var data = JSON.stringify({'score': score, 'medal': "S"});
   } else if (score >= BRONZE_MEDAL) {
-    return 'Bronze'
+    var data = JSON.stringify({'score': score, 'medal': "B"});
   }
 }
 
@@ -42,18 +44,18 @@ exports.handler = function(event, context, callback){
 var handlers =  {
 
   "LaunchRequest": function() {
-    this.handler.state = states.MENU
-    this.emitWithState('NewSession')
+    this.handler.state = states.MENU;
+    this.emitWithState('NewSession');
   },
 
   "UnhandledIntent": function() {
-    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE)
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   },
 
   "Unhandled": function() {
     this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   }
-}
+};
 
 var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 
@@ -73,7 +75,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   },
 
   "MenuIntent": function(message) {
-    this.emit(':ask', message + ' say start to begin a new game or exit to close Quiz bot')
+    this.emit(':ask', ' ' + message + ' say start to begin a new game or exit to close Quiz bot');
   },
 
   "UnhandledIntent": function() {
@@ -84,6 +86,8 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     this.emit(':ask', MENU_UNHANDLED_MESSAGE);
   }
 });
+
+
 
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
 
@@ -100,7 +104,11 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
       score++;
       if (questionNumber > QUESTION_TOTAL) {
         this.handler.state = states.MENU;
-        this.emitWithState('MenuIntent', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal!');
+        var alexa = this;
+        request('https://api-b90.mangahigh.com/institution/24', function (error, response, body){
+        var schoolName = JSON.parse(body).name;
+        alexa.emitWithState('MenuIntent', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal! Your progress has been sent to Mangahigh. ' + schoolName + '.');
+        });
       } else {
         this.emitWithState('QuestionIntent', 'Correct!');
       }
@@ -108,7 +116,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     } else {
       if (questionNumber > QUESTION_TOTAL) {
         this.handler.state = states.MENU;
-        this.emitWithState('MenuIntent', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal!');
+        this.emitWithState('MenuIntent', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal! Your progress has been sent to Mangahigh. ' + schoolName + '.');
       } else {
         this.emitWithState('QuestionIntent', 'Incorrect!');
       }
@@ -117,11 +125,11 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   // TODO add help intent
   "AMAZON.StopIntent": function() {
     this.handler.state = states.MENU;
-    this.emitWithState('MenuIntent', "");
+    alexa.emitWithState('MenuIntent', '');
   },
 
   "UnhandledIntent": function() {
-    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE)
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   },
 
   "Unhandled": function() {
