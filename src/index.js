@@ -40,6 +40,9 @@ var newSessionHandlers = {
   "AMAZON.HelpIntent": function() {
     this.emit(':ask', 'To begin the quiz, say start.');
   },
+  "MenuIntent": function(message) {
+    this.emit(':ask', message + ' say start to begin a new game.')
+  },
   "Unhandled": function() {
     this.emit(':ask', 'Sorry, I didn\'t catch that, say start to begin.');
   }
@@ -64,7 +67,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
       // TODO Fix this.
       if (questionNumber > QUESTION_TOTAL) {
         this.handler.state = "";
-        this.emit(':ask', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
+        this.emitWithState('MenuIntent', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
       } else {
         this.emitWithState('QuestionIntent', 'Correct!');
       }
@@ -72,7 +75,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     } else {
       if (questionNumber > QUESTION_TOTAL) {
         this.handler.state = "";
-        this.emit(':ask', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
+        this.emitWithState('MenuIntent', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
       } else {
         this.emitWithState('QuestionIntent', 'Incorrect!');
       }
@@ -81,7 +84,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
 
   "AMAZON.StopIntent": function() {
     this.handler.state = "";
-    this.emitWithState('LaunchRequest');
+    this.emitWithState('MenuIntent', "");
   },
 
   "Unhandled": function() {
