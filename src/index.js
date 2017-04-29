@@ -1,4 +1,6 @@
 var Alexa = require('alexa-sdk');
+var request = require('request');
+
 var APP_ID = undefined;
 var QUESTION_TOTAL = 5;
 var GOLD_MEDAL = QUESTION_TOTAL;
@@ -11,6 +13,8 @@ var states = {
   TRIVIA: "_TRIVIAMODE",
   MENU: "_MENUMODE"
 };
+var requestUri = 'http://api-b90.mangahigh.com';
+var sessionKey = 'session_b90';
 var questions = require('./questions')
 var currentQuestion;
 var score;
@@ -24,11 +28,13 @@ function getQuestion() {
 
 function getMedal(score) {
   if (score === GOLD_MEDAL) {
-    return 'Gold'
+    return 'G'
   } else if (score >= SILVER_MEDAL) {
-    return 'Silver'
+    return 'S'
   } else if (score >= BRONZE_MEDAL) {
-    return 'Bronze'
+    return 'B'
+  } else {
+    return null
   }
 }
 
@@ -73,7 +79,73 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   },
 
   "MenuIntent": function(message) {
-    this.emit(':ask', message + ' say start to begin a new game or exit to close Quiz bot')
+    var alexa = this;
+    var json = {
+      schoolId: 363305,
+      studentId: 'alice',
+      password: "password"
+    }
+    var getSessionIdOptions = {
+      headers: {
+        'user-agent': 'alexa'
+      },
+      uri: requestUri + '/auth',
+      method: 'post',
+      json: json
+    }
+
+    request(getSessionIdOptions, function (error, response, body){
+      var sessionId = body.id;
+      userId = body.userId
+      var getPlayIdOptions = {
+        headers: {
+          'cookie': sessionKey + '=' + sessionId,
+          'user-agent': 'alexa'
+        },
+        uri: requestUri + '/user/' + userId + '/game/21/play',
+        method: 'post',
+        json: {
+          level: 2
+        }
+      }
+
+      request(getPlayIdOptions, function (error, response, body){
+        playId = body.gamePlayId;
+        var saveDataToDatabaseOptions = {
+          headers: {
+            'cookie': sessionKey + '=' + sessionId,
+            'user-agent': 'alexa'
+          },
+          uri: requestUri + '/user/' + userId + '/game/21/play/' + playId,
+          method: 'put',
+          json: {
+            settings: {},
+            balance: 0,
+            gameData: {},
+            assets: [],
+            score: score,
+            timePlayed: 10,
+            level: 2,
+            action: 'update',
+            achievements: [{
+              activityId: 2,
+              medal: getMedal(score),
+              highScore: 60
+            }]
+          }
+        }
+
+        request(saveDataToDatabaseOptions, function (error, response, body){
+          alexa.emit(':ask', message + 'We have just saved your results.')
+        });
+        // });
+      });
+
+    });
+  },
+
+  "AMAZON.StopIntent": function() {
+    this.emit(':tell', "Goodbye!")
   },
 
   "UnhandledIntent": function() {
@@ -114,7 +186,9 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
       }
     }
   },
+
   // TODO add help intent
+
   "AMAZON.StopIntent": function() {
     this.handler.state = states.MENU;
     this.emitWithState('MenuIntent', "");

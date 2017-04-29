@@ -44,7 +44,7 @@ describe('launching the quiz (Menu handlers)', function (done){
   it('launches and then asks user to start', function (done) {
     // Launch the skill via sending it a LaunchRequest
     alexa.launched(function (error, payload) {
-      assert.include(payload.response.outputSpeech.ssml, 'Welcome to Quiz bot! Say start when you\'re ready.');
+      assert.include(payload.response.outputSpeech.ssml, 'Welcome to Quiz bot! Say start when you\'re ready. Featherstone');
       done();
     });
   });
@@ -62,7 +62,7 @@ describe('launching the quiz (Menu handlers)', function (done){
   it('can reply with the unhandled message when it doesn\'t understand the user\'s request', function (done) {
     alexa.launched(function (error, payload) {
       alexa.spoken('Test', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot.');
+        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot. ' );
         done();
       });
     });
