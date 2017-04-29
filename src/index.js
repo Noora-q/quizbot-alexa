@@ -84,69 +84,71 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   },
 
   "MenuIntent": function(message) {
-    var alexa = this;
-    var json = {
-      schoolId: 363305,
-      studentId: 'alice',
-      password: "password"
-    };
-    var getSessionIdOptions = {
-      headers: {
-        'user-agent': 'alexa'
-      },
-      uri: requestUri + '/auth',
-      method: 'post',
-      json: json
-    };
-
-    request(getSessionIdOptions, function (error, response, body){
-      var sessionId = body.id;
-      userId = body.userId;
-      var getPlayIdOptions = {
+    if (questionNumber > QUESTION_TOTAL) {
+      var alexa = this;
+      var json = {
+        schoolId: 363305,
+        studentId: 'alice',
+        password: "password"
+      };
+      var getSessionIdOptions = {
         headers: {
-          'cookie': sessionKey + '=' + sessionId,
           'user-agent': 'alexa'
         },
-        uri: requestUri + '/user/' + userId + '/game/21/play',
+        uri: requestUri + '/auth',
         method: 'post',
-        json: {
-          level: 2
-        }
+        json: json
       };
 
-      request(getPlayIdOptions, function (error, response, body){
-        playId = body.gamePlayId;
-        var saveDataToDatabaseOptions = {
+      request(getSessionIdOptions, function (error, response, body){
+        var sessionId = body.id;
+        userId = body.userId;
+        var getPlayIdOptions = {
           headers: {
             'cookie': sessionKey + '=' + sessionId,
             'user-agent': 'alexa'
           },
-          uri: requestUri + '/user/' + userId + '/game/21/play/' + playId,
-          method: 'put',
+          uri: requestUri + '/user/' + userId + '/game/21/play',
+          method: 'post',
           json: {
-            settings: {},
-            balance: 0,
-            gameData: {},
-            assets: [],
-            score: score,
-            timePlayed: 10,
-            level: 2,
-            action: 'update',
-            achievements: [{
-              activityId: 2,
-              medal: getMedal(score),
-              highScore: 60
-            }]
+            level: 2
           }
         };
 
-        request(saveDataToDatabaseOptions, function (error, response, body){
-          alexa.emit(':ask', message + 'We have just saved your results.');
+        request(getPlayIdOptions, function (error, response, body){
+          playId = body.gamePlayId;
+          var saveDataToDatabaseOptions = {
+            headers: {
+              'cookie': sessionKey + '=' + sessionId,
+              'user-agent': 'alexa'
+            },
+            uri: requestUri + '/user/' + userId + '/game/21/play/' + playId,
+            method: 'put',
+            json: {
+              settings: {},
+              balance: 0,
+              gameData: {},
+              assets: [],
+              score: score,
+              timePlayed: 10,
+              level: 2,
+              action: 'update',
+              achievements: [{
+                activityId: 2,
+                medal: getMedal(score),
+                highScore: 60
+              }]
+            };
+          };
+          
+          request(saveDataToDatabaseOptions, function (error, response, body){
+            alexa.emit(':ask', message + 'We have just saved your results.');
+          });
         });
-        // });
       });
-
-    });
+    } else {
+      this.emit(':ask', MENU_HELP_MESSAGE);
+    };
   },
 
   "AMAZON.CancelIntent": function() {
