@@ -7,7 +7,8 @@ var GOLD_MEDAL = QUESTION_TOTAL;
 var SILVER_MEDAL = 4;
 var BRONZE_MEDAL = 3;
 var GENERAL_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, please repeat.';
-var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot.'
+var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot.';
+
 var questionNumber;
 var states = {
   TRIVIA: "_TRIVIAMODE",
@@ -15,8 +16,8 @@ var states = {
 };
 var requestUri = 'http://api-b90.mangahigh.com';
 var sessionKey = 'session_b90';
-var questions = require('./questions')
-var currentQuestion;
+var questions = require('./questions');
+var currentQuestion = getQuestion();
 var score;
 
 function getQuestion() {
@@ -28,13 +29,13 @@ function getQuestion() {
 
 function getMedal(score) {
   if (score === GOLD_MEDAL) {
-    return 'G'
+    return 'G';
   } else if (score >= SILVER_MEDAL) {
-    return 'S'
+    return 'S';
   } else if (score >= BRONZE_MEDAL) {
-    return 'B'
+    return 'B';
   } else {
-    return null
+    return null;
   }
 }
 
@@ -48,18 +49,18 @@ exports.handler = function(event, context, callback){
 var handlers =  {
 
   "LaunchRequest": function() {
-    this.handler.state = states.MENU
-    this.emitWithState('NewSession')
+    this.handler.state = states.MENU;
+    this.emitWithState('NewSession');
   },
 
   "UnhandledIntent": function() {
-    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE)
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   },
 
   "Unhandled": function() {
     this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   }
-}
+};
 
 var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 
@@ -84,7 +85,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
       schoolId: 363305,
       studentId: 'alice',
       password: "password"
-    }
+    };
     var getSessionIdOptions = {
       headers: {
         'user-agent': 'alexa'
@@ -92,11 +93,11 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
       uri: requestUri + '/auth',
       method: 'post',
       json: json
-    }
+    };
 
     request(getSessionIdOptions, function (error, response, body){
       var sessionId = body.id;
-      userId = body.userId
+      userId = body.userId;
       var getPlayIdOptions = {
         headers: {
           'cookie': sessionKey + '=' + sessionId,
@@ -107,7 +108,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
         json: {
           level: 2
         }
-      }
+      };
 
       request(getPlayIdOptions, function (error, response, body){
         playId = body.gamePlayId;
@@ -133,10 +134,10 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
               highScore: 60
             }]
           }
-        }
+        };
 
         request(saveDataToDatabaseOptions, function (error, response, body){
-          alexa.emit(':ask', message + 'We have just saved your results.')
+          alexa.emit(':ask', message + 'We have just saved your results.');
         });
         // });
       });
@@ -145,7 +146,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   },
 
   "AMAZON.StopIntent": function() {
-    this.emit(':tell', "Goodbye!")
+    this.emit(':tell', "Goodbye!");
   },
 
   "UnhandledIntent": function() {
@@ -158,9 +159,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 });
 
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
-
   "QuestionIntent": function(lastQuestionResult) {
-    currentQuestion = getQuestion();
     this.emit(':ask', lastQuestionResult + ' Question ' + questionNumber + '. ' + currentQuestion);
     questionNumber++;
   },
@@ -187,6 +186,10 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     }
   },
 
+  "AMAZON.RepeatIntent": function() {
+    this.emit(':ask', currentQuestion);
+  },
+
   // TODO add help intent
 
   "AMAZON.StopIntent": function() {
@@ -195,7 +198,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   },
 
   "UnhandledIntent": function() {
-    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE)
+    this.emit(':ask', GENERAL_UNHANDLED_MESSAGE);
   },
 
   "Unhandled": function() {
