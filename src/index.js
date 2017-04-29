@@ -82,14 +82,15 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     var alexa = this;
     var json = {
       schoolId: 10,
-      studentId: '652',
-      password: "gorilla"
+      studentId: '1',
+      password: "gorilla652"
     }
-    // gorilla 652
-    // fox 995
-    // panda 677
-    // ant 970
-    // falcon 702
+    // studentId:   password:
+    //            1          gorilla652
+    //            2          fox995
+    //            3          panda677
+    //            4          ant970
+    //            5          falcon702
     var getSessionIdOptions = {
       headers: {
         'user-agent': 'alexa'
