@@ -13,8 +13,8 @@ var states = {
   TRIVIA: "_TRIVIAMODE",
   MENU: "_MENUMODE"
 };
-var requestUri = 'http://api-b90.mangahigh.com';
-var sessionKey = 'session_b90';
+var requestUri = 'http://api-a70.mangahigh.com';
+var sessionKey = 'session_a70';
 var questions = require('./questions')
 var currentQuestion;
 var score;
@@ -81,10 +81,15 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   "MenuIntent": function(message) {
     var alexa = this;
     var json = {
-      schoolId: 363305,
-      studentId: 'alice',
-      password: "password"
+      schoolId: 10,
+      studentId: 'gorilla',
+      password: "652"
     }
+    // gorilla 652
+    // fox 995
+    // panda 677
+    // ant 970
+    // falcon 702
     var getSessionIdOptions = {
       headers: {
         'user-agent': 'alexa'
@@ -102,7 +107,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
           'cookie': sessionKey + '=' + sessionId,
           'user-agent': 'alexa'
         },
-        uri: requestUri + '/user/' + userId + '/game/21/play',
+        uri: requestUri + '/user/' + userId + '/game/24/play',
         method: 'post',
         json: {
           level: 2
@@ -116,7 +121,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
             'cookie': sessionKey + '=' + sessionId,
             'user-agent': 'alexa'
           },
-          uri: requestUri + '/user/' + userId + '/game/21/play/' + playId,
+          uri: requestUri + '/user/' + userId + '/game/24/play/' + playId,
           method: 'put',
           json: {
             settings: {},
