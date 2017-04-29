@@ -6,9 +6,13 @@ var QUESTION_TOTAL = 5;
 var GOLD_MEDAL = QUESTION_TOTAL;
 var SILVER_MEDAL = 4;
 var BRONZE_MEDAL = 3;
+var WELCOME_MESSAGE = 'Welcome to Quiz bot! Say start when you\'re ready.';
+var INSTRUCTIONS_MESSAGE = "Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.";
 var GENERAL_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, please repeat.';
-var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, say start to begin a new game or exit to close Quiz bot.';
-
+var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, say start to begin a new quiz or exit to close Quiz bot.';
+var MENU_HELP_MESSAGE = 'Say start to begin a new quiz or exit to close Quiz bot.';
+var TRIVIA_HELP_MESSAGE = 'Your answer must be a number. If you didn\'t hear the question, say repeat. To go back to the main menu, say stop. To quit the game say exit.';
+var EXIT_MESSAGE = 'Goodbye!';
 var questionNumber;
 var states = {
   TRIVIA: "_TRIVIAMODE",
@@ -65,18 +69,18 @@ var handlers =  {
 var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 
   "NewSession": function () {
-    this.emit(':ask', 'Welcome to Quiz bot! Say start when you\'re ready.');
+    this.emit(':ask', WELCOME_MESSAGE);
   },
 
   "AMAZON.StartOverIntent": function() {
     questionNumber = 1;
     score = 0;
     this.handler.state = states.TRIVIA;
-    this.emitWithState('QuestionIntent', "Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.");
+    this.emitWithState('QuestionIntent', INSTRUCTIONS_MESSAGE);
   },
 
   "AMAZON.HelpIntent": function() {
-    this.emit(':ask', 'To begin the quiz, say start.');
+    this.emit(':ask', MENU_HELP_MESSAGE);
   },
 
   "MenuIntent": function(message) {
@@ -145,8 +149,8 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     });
   },
 
-  "AMAZON.StopIntent": function() {
-    this.emit(':tell', "Goodbye!");
+  "AMAZON.CancelIntent": function() {
+    this.emit(':tell', EXIT_MESSAGE);
   },
 
   "UnhandledIntent": function() {
@@ -171,7 +175,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
       score++;
       if (questionNumber > QUESTION_TOTAL) {
         this.handler.state = states.MENU;
-        this.emitWithState('MenuIntent', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal!');
+        this.emitWithState('MenuIntent', 'Correct! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
       } else {
         this.emitWithState('QuestionIntent', 'Correct!');
       }
@@ -179,7 +183,7 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     } else {
       if (questionNumber > QUESTION_TOTAL) {
         this.handler.state = states.MENU;
-        this.emitWithState('MenuIntent', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL + '. You got a ' + getMedal(score) + ' medal!');
+        this.emitWithState('MenuIntent', 'Incorrect! You have scored ' + score + ' out of ' + QUESTION_TOTAL);
       } else {
         this.emitWithState('QuestionIntent', 'Incorrect!');
       }
@@ -190,11 +194,17 @@ var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
     this.emit(':ask', currentQuestion);
   },
 
-  // TODO add help intent
+  "AMAZON.HelpIntent": function() {
+    this.emit(':ask', TRIVIA_HELP_MESSAGE);
+  },
 
   "AMAZON.StopIntent": function() {
     this.handler.state = states.MENU;
     this.emitWithState('MenuIntent', "");
+  },
+
+  "AMAZON.CancelIntent": function() {
+    this.emit(':tell', EXIT_MESSAGE);
   },
 
   "UnhandledIntent": function() {

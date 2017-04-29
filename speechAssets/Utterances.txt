@@ -42,18 +42,20 @@ DontKnowIntent i don't know this question
 DontKnowIntent i don't know that one
 DontKnowIntent dunno
 
-AMAZON.StopIntent exit game
-AMAZON.StopIntent exit
-AMAZON.StopIntent exit quiz
 AMAZON.StopIntent stop game
 AMAZON.StopIntent stop
 AMAZON.StopIntent stop quiz
-AMAZON.StopIntent quit game
-AMAZON.StopIntent quit
-AMAZON.StopIntent quit quiz
 AMAZON.StopIntent end game
 AMAZON.StopIntent end
 AMAZON.StopIntent end quiz
+
+AMAZON.CancelIntent exit game
+AMAZON.CancelIntent exit
+AMAZON.CancelIntent exit quiz
+AMAZON.CancelIntent quit game
+AMAZON.CancelIntent quit
+AMAZON.CancelIntent quit quiz
+
 
 AMAZON.YesIntent yes
 AMAZON.YesIntent ready
