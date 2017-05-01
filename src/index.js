@@ -82,7 +82,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     var alexa = this;
     var json = {
       schoolId: 10,
-      studentId: '1',
+      studentId: 1,
       password: "gorilla652"
     }
     // studentId:   password:
