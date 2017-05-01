@@ -24,6 +24,9 @@ RepeatIntent I didn't catch that
 RepeatIntent pardon
 RepeatIntent sorry
 
+LevelIntent level {Level}
+LevelIntent change to level {Level}
+LevelIntent choose level {Level}
 
 AMAZON.StartOverIntent start game
 AMAZON.StartOverIntent new game
