@@ -18,10 +18,12 @@ var states = {
   TRIVIA: "_TRIVIAMODE",
   MENU: "_MENUMODE"
 };
-var requestUri = 'http://api-b90.mangahigh.com';
-var sessionKey = 'session_b90';
-var questions = require('./questions');
-var currentQuestion = getQuestion();
+
+var requestUri = 'http://api-a70.mangahigh.com';
+var sessionKey = 'session_a70';
+var questions = require('./questions')
+var currentQuestion;
+
 var score;
 
 function getQuestion() {
@@ -86,10 +88,17 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   "MenuIntent": function(message) {
     var alexa = this;
     var json = {
-      schoolId: 363305,
-      studentId: 'alice',
-      password: "password"
-    };
+      schoolId: 10,
+      studentId: 1,
+      password: "gorilla652"
+    }
+    // studentId:   password:
+    //            1          gorilla652
+    //            2          fox995
+    //            3          panda677
+    //            4          ant970
+    //            5          falcon702
+
     var getSessionIdOptions = {
       headers: {
         'user-agent': 'alexa'
@@ -107,7 +116,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
           'cookie': sessionKey + '=' + sessionId,
           'user-agent': 'alexa'
         },
-        uri: requestUri + '/user/' + userId + '/game/21/play',
+        uri: requestUri + '/user/' + userId + '/game/24/play',
         method: 'post',
         json: {
           level: 2
@@ -121,7 +130,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
             'cookie': sessionKey + '=' + sessionId,
             'user-agent': 'alexa'
           },
-          uri: requestUri + '/user/' + userId + '/game/21/play/' + playId,
+          uri: requestUri + '/user/' + userId + '/game/24/play/' + playId,
           method: 'put',
           json: {
             settings: {},
@@ -164,6 +173,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   "QuestionIntent": function(lastQuestionResult) {
+    currentQuestion = getQuestion();
     this.emit(':ask', lastQuestionResult + ' Question ' + questionNumber + '. ' + currentQuestion);
     questionNumber++;
   },
