@@ -1,5 +1,6 @@
 var Alexa = require('alexa-sdk');
 var request = require('request');
+var api = require('./api.js');
 
 var APP_ID = undefined;
 var QUESTION_TOTAL = 5;
@@ -52,11 +53,22 @@ exports.handler = function(event, context, callback){
   alexa_one.execute();
 };
 
+var userId;
+var userSessionId;
+var gameSessionId
+
 var handlers =  {
 
   "LaunchRequest": function() {
+    var alexa = this;
     this.handler.state = states.MENU;
-    this.emitWithState('NewSession');
+
+    api.login(10, 1, "gorilla652", function (playerId, sessionId) {
+        userId = playerId;
+        userSessionId = sessionId;
+        alexa.emitWithState('NewSession');
+      }
+    );
   },
 
   "UnhandledIntent": function() {
@@ -75,10 +87,19 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   },
 
   "AMAZON.StartOverIntent": function() {
+    var alexa = this;
     questionNumber = 1;
     score = 0;
     this.handler.state = states.TRIVIA;
-    this.emitWithState('QuestionIntent', INSTRUCTIONS_MESSAGE);
+    api.getGameSessionId(
+        1,
+        userSessionId,
+        userId,
+        function  (gameSessionId2) {
+          gameSessionId = gameSessionId2;
+          alexa.emitWithState('QuestionIntent', INSTRUCTIONS_MESSAGE);
+        }
+    );
   },
 
   "AMAZON.HelpIntent": function() {
@@ -86,89 +107,13 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   },
 
   "MenuIntent": function(message) {
-    if (questionNumber > QUESTION_TOTAL) {
     var alexa = this;
-    var json = {
-      schoolId: 10,
-      studentId: 1,
-      password: "gorilla652"
-    }
-    // studentId:   password:
-    //            1          gorilla652
-    //            2          fox995
-    //            3          panda677
-    //            4          ant970
-    //            5          falcon702
-
-    var getSessionIdOptions = {
-      headers: {
-        'user-agent': 'alexa'
-      },
-      uri: requestUri + '/auth',
-      method: 'post',
-      json: json
-    };
-
-    request(getSessionIdOptions, function (error, response, body){
-      var sessionId = body.id;
-      userId = body.userId;
-      var getPlayIdOptions = {
-        headers: {
-          'user-agent': 'alexa'
-        },
-        uri: requestUri + '/user/' + userId + '/game/24/play',
-        method: 'post',
-        json: json
-      };
-
-      request(getSessionIdOptions, function (error, response, body){
-        var sessionId = body.id;
-        userId = body.userId;
-        var getPlayIdOptions = {
-          headers: {
-            'cookie': sessionKey + '=' + sessionId,
-            'user-agent': 'alexa'
-          },
-          uri: requestUri + '/user/' + userId + '/game/24/play/' + playId,
-          method: 'put',
-          json: {
-            level: 2
-          }
-        };
-
-        request(getPlayIdOptions, function (error, response, body){
-          playId = body.gamePlayId;
-          var saveDataToDatabaseOptions = {
-            headers: {
-              'cookie': sessionKey + '=' + sessionId,
-              'user-agent': 'alexa'
-            },
-            uri: requestUri + '/user/' + userId + '/game/21/play/' + playId,
-            method: 'put',
-            json: {
-              settings: {},
-              balance: 0,
-              gameData: {},
-              assets: [],
-              score: score,
-              timePlayed: 10,
-              level: 2,
-              action: 'update',
-              achievements: [{
-                activityId: 2,
-                medal: getMedal(score),
-                highScore: 60
-              }]
-            };
-          };
-          
-          request(saveDataToDatabaseOptions, function (error, response, body){
-            alexa.emit(':ask', message + 'We have just saved your results.');
-          });
-        });
+    if (questionNumber > QUESTION_TOTAL) {
+      api.sendResults(1, userSessionId, userId, score, gameSessionId, getMedal(score), function() {
+        alexa.emit(':ask', message + ' We have just saved your results.');
       });
     } else {
-      this.emit(':ask', MENU_HELP_MESSAGE);
+      alexa.emit(':ask', MENU_HELP_MESSAGE);
     };
   },
 
