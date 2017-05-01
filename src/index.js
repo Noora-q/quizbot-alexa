@@ -19,18 +19,28 @@ var states = {
   TRIVIA: "_TRIVIAMODE",
   MENU: "_MENUMODE"
 };
-
 var requestUri = 'http://api-a70.mangahigh.com';
 var sessionKey = 'session_a70';
 var questions = require('./questions')
 var currentQuestion;
-
 var score;
+var usedKeys = []
 
 function getQuestion() {
   var keys = Object.keys(questions);
   var rnd = Math.floor(Math.random() * keys.length);
+  for ( i = 0; i < usedKeys.length; i++ ){
+    console.log(keys[rnd])
+    console.log("rnd: ", rnd)
+    console.log("usedKeys[i]: ", usedKeys[i])
+    if (rnd == usedKeys[i]) {
+      console.log("hellothere");
+      return getQuestion();
+    }
+  }
   var key = keys[rnd];
+  usedKeys.push(rnd)
+  console.log("Asked question: ", key)
   return key;
 }
 
@@ -110,7 +120,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     var alexa = this;
     if (questionNumber > QUESTION_TOTAL) {
       api.sendResults(1, userSessionId, userId, score, gameSessionId, getMedal(score), function() {
-        alexa.emit(':ask', message + ' We have just saved your results.');
+        alexa.emit(':ask', message + '! We have just saved your results.');
       });
     } else {
       alexa.emit(':ask', MENU_HELP_MESSAGE);
