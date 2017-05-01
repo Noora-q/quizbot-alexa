@@ -97,7 +97,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
     });
   });
 
-    it('moves onto the second question after the user answers the first', function() {
+    it('moves onto the second question after the user answers the first', function(done) {
       alexa.launched(function(error, payload) {
         alexa.spoken('Start', function (error, payload) {
             assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
@@ -115,7 +115,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
         });
     });
 
-    it('moves onto the third question after the user answers the second', function() {
+    it('moves onto the third question after the user answers the second', function(done) {
       alexa.launched(function(error, payload) {
         alexa.spoken('Start', function (error, payload) {
             assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
@@ -130,7 +130,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
       });
     });
 
-    it('moves onto the third question after the user answers the second', function() {
+    it('moves onto the third question after the user answers the second', function(done) {
       alexa.launched(function(error, payload) {
         alexa.spoken('Start', function (error, payload) {
             assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
@@ -139,7 +139,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
               alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
                 assert.include(payload.response.outputSpeech.ssml, 'Question 3.');
                 alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
-                  assert.include(payload.response.outputSpeech.ssml, 'Question 3.');
+                  assert.include(payload.response.outputSpeech.ssml, 'Question 4.');
                   done();
               });
             });
@@ -148,7 +148,29 @@ describe('playing the quiz (Trivia handlers)', function (done){
       });
     });
 
-
+    it('can complete a quiz', function(done) {
+      alexa.launched(function(error, payload) {
+        alexa.spoken('Start', function (error, payload) {
+            assert.include(payload.response.outputSpeech.ssml, 'Question 1.');
+            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              assert.include(payload.response.outputSpeech.ssml, 'Question 2.');
+              alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                assert.include(payload.response.outputSpeech.ssml, 'Question 3.');
+                alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                  assert.include(payload.response.outputSpeech.ssml, 'Question 4.');
+                  alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                    assert.include(payload.response.outputSpeech.ssml, 'Question 5.');
+                    alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                      assert.include(payload.response.outputSpeech.ssml, 'You have scored');
+                      done();
+                    });
+                  });
+              });
+            });
+          });
+        });
+      });
+    });
 
 
 
