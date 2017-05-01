@@ -24,7 +24,6 @@ RepeatIntent I didn't catch that
 RepeatIntent pardon
 RepeatIntent sorry
 
-
 AMAZON.StartOverIntent start game
 AMAZON.StartOverIntent new game
 AMAZON.StartOverIntent start
@@ -55,7 +54,6 @@ AMAZON.CancelIntent exit quiz
 AMAZON.CancelIntent quit game
 AMAZON.CancelIntent quit
 AMAZON.CancelIntent quit quiz
-
 
 AMAZON.YesIntent yes
 AMAZON.YesIntent ready
