@@ -84,6 +84,3 @@ module.exports.sendResults = function (levelId, userSessionId, userId, score, ga
         callback()
       });
     };
-//   });
-//
-// });

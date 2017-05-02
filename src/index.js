@@ -21,7 +21,7 @@ var states = {
 };
 var requestUri = 'http://api-a70.mangahigh.com';
 var sessionKey = 'session_a70';
-var questions = require('./questions');
+var questions = require('./questions1');
 var currentQuestion;
 var score;
 var usedKeys = [];
@@ -104,19 +104,28 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     this.emit(':ask', WELCOME_MESSAGE);
   },
 
+  "LevelIntent": function() {
+    level = this.event.request.intent.slots.Level.value
+    if (level === '1') {
+      questions = require('./questions1')
+    } else if (level === '2') {
+      questions = require('./questions2')
+    } else {
+      console.log("needs to be a string")
+    }
+    this.emitWithState('AMAZON.StartOverIntent')
+  },
+
   "AMAZON.StartOverIntent": function() {
     var alexa = this;
     questionNumber = 1;
     score = 0;
     this.handler.state = states.TRIVIA;
-    api.getGameSessionId(
-        1,
-        userSessionId,
-        userId,
-        function  (gameSessionId2) {
+    api.getGameSessionId(1, userSessionId, userId, function(gameSessionId2) {
           gameSessionId = gameSessionId2;
+          usedKeys = []
           alexa.emitWithState('QuestionIntent', INSTRUCTIONS_MESSAGE);
-        }
+      }
     );
   },
 
