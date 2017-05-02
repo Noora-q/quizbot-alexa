@@ -135,9 +135,13 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 
   "MenuIntent": function(message) {
     var alexa = this;
+    var cardTitle = 'Quizbot Results Card';
+    var cardContent = 'This will be sent to the user';
+    var repromptSpeech = 'This is a reprompt speech';
+
     if (questionNumber > QUESTION_TOTAL) {
       api.sendResults(1, userSessionId, userId, score, gameSessionId, getMedal(score), function() {
-        alexa.emit(':ask', message + ' We have just saved your results.');
+        alexa.emit(':askWithCard', message + '! We have just saved your results.', repromptSpeech, cardTitle, cardContent);
       });
     } else {
       alexa.emit(':ask', MENU_HELP_MESSAGE);
