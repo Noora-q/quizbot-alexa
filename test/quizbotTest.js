@@ -44,7 +44,7 @@ describe('launching the quiz (Menu handlers)', function (done){
   it('launches and then asks user to start', function (done) {
     // Launch the skill via sending it a LaunchRequest
     alexa.launched(function (error, payload) {
-      assert.include(payload.response.outputSpeech.ssml, 'Welcome to <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.! Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>..');
+      assert.include(payload.response.outputSpeech.ssml, 'Welcome to <emphasis level="reduced">quiz bot</emphasis>! Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.');
       done();
     });
   });
@@ -53,7 +53,7 @@ describe('launching the quiz (Menu handlers)', function (done){
     // Emulate the user saying 'Help'
     alexa.launched(function (error, payload) {
       alexa.spoken('help', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>..');
+        assert.include(payload.response.outputSpeech.ssml, 'Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.');
         done();
       });
     });
@@ -62,7 +62,7 @@ describe('launching the quiz (Menu handlers)', function (done){
   it('can reply with the unhandled message when it doesn\'t understand the user\'s request', function (done) {
     alexa.launched(function (error, payload) {
       alexa.spoken('Test', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that. Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>..');
+        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that. Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.');
         done();
       });
     });
