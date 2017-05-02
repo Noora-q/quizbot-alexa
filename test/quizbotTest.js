@@ -44,7 +44,7 @@ describe('launching the quiz (Menu handlers)', function (done){
   it('launches and then asks user to start', function (done) {
     // Launch the skill via sending it a LaunchRequest
     alexa.launched(function (error, payload) {
-      assert.include(payload.response.outputSpeech.ssml, 'Welcome to Quiz bot! Say level one for beginner, say level two for intermediate or say exit to close Quiz bot.');
+      assert.include(payload.response.outputSpeech.ssml, 'Welcome to <emphasis level="moderate">Quiz</emphasis>bot.! Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <emphasis level="moderate">Quiz</emphasis>bot..');
       done();
     });
   });
@@ -53,7 +53,7 @@ describe('launching the quiz (Menu handlers)', function (done){
     // Emulate the user saying 'Help'
     alexa.launched(function (error, payload) {
       alexa.spoken('help', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Say start to begin a new quiz or exit to close Quiz bot.');
+        assert.include(payload.response.outputSpeech.ssml, 'Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <emphasis level="moderate">Quiz</emphasis>bot..');
         done();
       });
     });
@@ -62,7 +62,7 @@ describe('launching the quiz (Menu handlers)', function (done){
   it('can reply with the unhandled message when it doesn\'t understand the user\'s request', function (done) {
     alexa.launched(function (error, payload) {
       alexa.spoken('Test', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin a new quiz or exit to close Quiz bot!');
+        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that. Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <emphasis level="moderate">Quiz</emphasis>bot..');
         done();
       });
     });
@@ -72,7 +72,7 @@ describe('launching the quiz (Menu handlers)', function (done){
     // Emulate the user saying 'Start'
     alexa.launched(function(error, payload) {
       alexa.spoken('Start', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.');
+        assert.include(payload.response.outputSpeech.ssml, 'Alright, Let\'s begin. I will give an algebraic equation and your task is to find the value of x.');
         done();
       });
     });

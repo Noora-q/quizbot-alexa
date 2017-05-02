@@ -7,12 +7,12 @@ var QUESTION_TOTAL = 5;
 var GOLD_MEDAL = QUESTION_TOTAL;
 var SILVER_MEDAL = 4;
 var BRONZE_MEDAL = 3;
-var LEVEL_PROMPT = 'Say level one for beginner, say level two for intermediate or say exit to close Quiz bot.';
-var WELCOME_MESSAGE = 'Welcome to Quiz bot! ' + LEVEL_PROMPT ;
-var INSTRUCTIONS_MESSAGE = 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.';
+var LEVEL_PROMPT = 'Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <emphasis level="moderate">Quiz</emphasis>bot..';
+var WELCOME_MESSAGE = 'Welcome to <emphasis level="moderate">Quiz</emphasis>bot.! ' + LEVEL_PROMPT ;
+var INSTRUCTIONS_MESSAGE = 'Alright, Let\'s begin. I will give an algebraic equation and your task is to find the value of x.';
 var GENERAL_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, please repeat.';
-var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, say start to begin a new quiz or exit to close Quiz bot!';
-var MENU_HELP_MESSAGE = 'Say start to begin a new quiz or exit to close Quiz bot.';
+var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that. ' + LEVEL_PROMPT;
+var MENU_HELP_MESSAGE = LEVEL_PROMPT;
 var TRIVIA_HELP_MESSAGE = 'Your answer must be a number. If you didn\'t hear the question, say repeat. To go back to the main menu, say stop. To quit the game say exit.';
 var EXIT_MESSAGE = 'Goodbye!';
 var questionNumber;
@@ -81,7 +81,6 @@ var handlers =  {
   "LaunchRequest": function() {
     var alexa = this;
     this.handler.state = states.MENU;
-
     api.login(10, 1, "gorilla652", function (playerId, sessionId) {
         userId = playerId;
         userSessionId = sessionId;
@@ -165,7 +164,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   "QuestionIntent": function(lastQuestionResult) {
     currentQuestion = getQuestion();
-    this.emit(':ask', lastQuestionResult + ' Question ' + questionNumber + '. ' + currentQuestion);
+    this.emit(':ask', lastQuestionResult + ' Question ' + questionNumber + '. <break time="0.35s"/>' + currentQuestion);
     questionNumber++;
   },
 

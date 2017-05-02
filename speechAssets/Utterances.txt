@@ -17,12 +17,12 @@ AnswerIntent is it {Answer}
 AnswerIntent {Answer} is my answer
 AnswerIntent {Answer}
 
-RepeatIntent can you repeat the question
-RepeatIntent repeat the question
-RepeatIntent repeat
-RepeatIntent I didn't catch that
-RepeatIntent pardon
-RepeatIntent sorry
+AMAZON.RepeatIntent can you repeat the question
+AMAZON.RepeatIntent repeat the question
+AMAZON.RepeatIntent repeat
+AMAZON.RepeatIntent I didn't catch that
+AMAZON.RepeatIntent pardon
+AMAZON.RepeatIntent sorry
 
 LevelIntent level {Level}
 LevelIntent change to level {Level}
