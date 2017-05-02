@@ -62,7 +62,7 @@ function getAnswerReply(answerMessages) {
 
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
-  alexa_one.registerHandlers(handlers, menuHandlers, triviaModeHandlers);
+  alexa_one.registerHandlers(handlers, menuHandlers, triviaHandlers);
   alexa_one.appId = APP_ID;
   alexa_one.execute();
 };
