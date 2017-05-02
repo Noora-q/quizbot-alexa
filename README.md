@@ -8,7 +8,7 @@ Time taken: Nine days, plus two days feature freeze
 
 Technologies used:
 * JavaScript
-* NodeJS
+* Node.js
 * AWS Lambda
 * Bespoken Tools
 * Alexa SDK
@@ -16,6 +16,7 @@ Technologies used:
 * Chai
 * Sinon
 * Trello
+* Request
 
 ### How to
 This app can be downloaded from the Alexa store. To have a look at the code, clone or fork the repo. Testing is set under 'npm test' in the command line when in the src folder. Details on how to deploy the skill to AWS Lambda can be found on the [Amazon documentation](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/deploying-a-sample-skill-to-aws-lambda).
