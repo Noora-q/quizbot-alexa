@@ -41,8 +41,7 @@ afterEach(function(done) {
 
 describe('launching the quiz (Menu handlers)', function (done){
 
-  it('launches and then asks user to start', function (done) {
-    // Launch the skill via sending it a LaunchRequest
+  it('launches and then asks user choose a level', function (done) {
     alexa.launched(function (error, payload) {
       assert.include(payload.response.outputSpeech.ssml, 'Welcome to <emphasis level="reduced">quiz bot</emphasis>! Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.');
       done();
@@ -50,7 +49,6 @@ describe('launching the quiz (Menu handlers)', function (done){
   });
 
   it('can reply with help message when the user asks for help', function (done) {
-    // Emulate the user saying 'Help'
     alexa.launched(function (error, payload) {
       alexa.spoken('help', function (error, payload) {
         assert.include(payload.response.outputSpeech.ssml, 'Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.');
@@ -69,7 +67,6 @@ describe('launching the quiz (Menu handlers)', function (done){
   });
 
   it('can reply with a start message when the user wants to start the game', function (done) {
-    // Emulate the user saying 'Start'
     alexa.launched(function(error, payload) {
       alexa.spoken('Start', function (error, payload) {
         assert.include(payload.response.outputSpeech.ssml, 'Alright, Let\'s begin. I will give an algebraic equation and your task is to find the value of x.');
@@ -80,8 +77,6 @@ describe('launching the quiz (Menu handlers)', function (done){
 });
 
 describe('playing the quiz (Trivia handlers)', function (done){
-
-
   it('can ask the first question', function (done) {
     // Stub randomness
     // function getQuestion() {
