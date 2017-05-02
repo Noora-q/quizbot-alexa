@@ -26,7 +26,7 @@ var questions = require('./questions1');
 var currentQuestion;
 var score;
 var usedKeys = [];
-var levelId = 1
+var levelId = 1;
 var correctAnswerMessages = ['Right!','Correct!', 'That is the right answer!', 'Woohoo!', 'Awesome!', 'Great job!', 'Well done!'];
 var incorrectAnswerMessages = ['Wrong!','Incorrect!','That is not the right answer!', 'That is incorrect!'];
 
@@ -100,17 +100,17 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   },
 
   "LevelIntent": function() {
-    level = this.event.request.intent.slots.Level.value
+    level = this.event.request.intent.slots.Level.value;
     if (level === '1') {
-      questions = require('./questions1')
-      levelId = 1
+      questions = require('./questions1');
+      levelId = 1;
     } else if (level === '2') {
-      questions = require('./questions2')
-      levelId = 2
+      questions = require('./questions2');
+      levelId = 2;
     } else {
-      this.emitWithState('AMAZON.HelpIntent')
+      this.emitWithState('AMAZON.HelpIntent');
     }
-    this.emitWithState('AMAZON.StartOverIntent')
+    this.emitWithState('AMAZON.StartOverIntent');
   },
 
   "AMAZON.StartOverIntent": function() {
@@ -120,7 +120,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     this.handler.state = states.TRIVIA;
     api.getGameSessionId(levelId, userSessionId, userId, function(gameSessionId2) {
           gameSessionId = gameSessionId2;
-          usedKeys = []
+          usedKeys = [];
           alexa.emitWithState('QuestionIntent', INSTRUCTIONS_MESSAGE);
       }
     );
@@ -158,7 +158,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
   }
 });
 
-var triviaModeHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
+var triviaHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
   "QuestionIntent": function(lastQuestionResult) {
     currentQuestion = getQuestion();
     this.emit(':ask', lastQuestionResult + ' Question ' + questionNumber + '. <break time="0.35s"/>' + currentQuestion);
