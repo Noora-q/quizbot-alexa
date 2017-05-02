@@ -179,7 +179,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
   it('asks level 2 questions if the user sets the level to 2 on the menu', function(done) {
     alexa.launched(function(error, payload) {
       alexa.intended('LevelIntent', {"Level": "2"}, function(error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'plus');
+        assert.include(payload.response.outputSpeech.ssml, 'x +');
         done();
       });
     });
