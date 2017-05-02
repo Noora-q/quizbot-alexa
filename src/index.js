@@ -7,7 +7,8 @@ var QUESTION_TOTAL = 5;
 var GOLD_MEDAL = QUESTION_TOTAL;
 var SILVER_MEDAL = 4;
 var BRONZE_MEDAL = 3;
-var WELCOME_MESSAGE = 'Welcome to Quiz bot! Say start when you\'re ready.';
+var LEVEL_PROMPT = 'Say level one for beginner, say level two for intermediate or say exit to close Quiz bot.';
+var WELCOME_MESSAGE = 'Welcome to Quiz bot! ' + LEVEL_PROMPT ;
 var INSTRUCTIONS_MESSAGE = 'Alright then. Let\'s begin. I will give an algebraic equation and your task is to find the value of x.';
 var GENERAL_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, please repeat.';
 var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, say start to begin a new quiz or exit to close Quiz bot!';
@@ -137,11 +138,11 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     var alexa = this;
     var cardTitle = 'Quizbot Results Card';
     var cardContent = 'This will be sent to the user';
-    var repromptSpeech = 'This is a reprompt speech';
+    var repromptSpeech = 'To play a new quiz, ' + LEVEL_PROMPT ;
 
     if (questionNumber > QUESTION_TOTAL) {
       api.sendResults(1, userSessionId, userId, score, gameSessionId, getMedal(score), function() {
-        alexa.emit(':askWithCard', message + '! We have just saved your results.', repromptSpeech, cardTitle, cardContent);
+        alexa.emit(':askWithCard', message + '! We have just saved your results to mangahigh.', repromptSpeech, cardTitle, cardContent);
       });
     } else {
       alexa.emit(':ask', MENU_HELP_MESSAGE);
