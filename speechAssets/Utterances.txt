@@ -59,7 +59,6 @@ AMAZON.CancelIntent quit game
 AMAZON.CancelIntent quit
 AMAZON.CancelIntent quit quiz
 
-
 AMAZON.YesIntent yes
 AMAZON.YesIntent ready
 AMAZON.YesIntent sure

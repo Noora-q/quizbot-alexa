@@ -62,7 +62,7 @@ describe('launching the quiz (Menu handlers)', function (done){
   it('can reply with the unhandled message when it doesn\'t understand the user\'s request', function (done) {
     alexa.launched(function (error, payload) {
       alexa.spoken('Test', function (error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin a new quiz or exit to close Quiz bot.');
+        assert.include(payload.response.outputSpeech.ssml, 'Sorry, I didn\'t catch that, say start to begin a new quiz or exit to close Quiz bot!');
         done();
       });
     });
