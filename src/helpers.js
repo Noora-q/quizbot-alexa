@@ -7,7 +7,7 @@ exports.getQuestion = function(questions, usedKeys) {
   var rnd = Math.floor(Math.random() * keys.length);
   for ( i = 0; i < usedKeys.length; i++ ){
     if (rnd == usedKeys[i]) {
-      return getQuestion();
+      return exports.getQuestion(questions, usedKeys);
     }
   }
   var key = keys[rnd];
