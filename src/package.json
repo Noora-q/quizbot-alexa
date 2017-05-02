@@ -7,7 +7,7 @@
     "test": "mocha ../test/quizbotTest"
   },
   "author": "@ayanit1, @AliceArmstrong, @aleximm1, @Noora-q",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "alexa-app-server": "^3.0.1",
     "bespoken-tools": "^0.9.35",
