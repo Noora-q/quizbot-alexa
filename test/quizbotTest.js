@@ -41,9 +41,8 @@ afterEach(function(done) {
 
 describe('launching the quiz (Menu handlers)', function (done){
 
-  it.only('launches and then asks user choose a level', function (done) {
+  it('launches and then asks user choose a level', function (done) {
     alexa.launched(function (error, payload) {
-      console.log(payload)
       assert.include(payload.response.outputSpeech.ssml, 'Welcome to <emphasis level="reduced">quiz bot</emphasis>! Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.');
       done();
     });
@@ -71,6 +70,15 @@ describe('launching the quiz (Menu handlers)', function (done){
     alexa.launched(function(error, payload) {
       alexa.spoken('Start', function (error, payload) {
         assert.include(payload.response.outputSpeech.ssml, 'Alright, Let\'s begin. I will give an algebraic equation and your task is to find the value of x.');
+        done();
+      });
+    });
+  });
+
+  it('can allow user to exit the game', function (done) {
+    alexa.launched(function(error, payload) {
+      alexa.spoken('exit', function (error, payload){
+        assert.equal(payload.response.shouldEndSession, true);
         done();
       });
     });
@@ -186,8 +194,16 @@ describe('playing the quiz (Trivia handlers)', function (done){
     });
   });
 
-
-
+  it('can allow user to end game', function(done){
+    alexa.launched(function(error, payload) {
+      alexa.intended('LevelIntent', {"Level": "1"}, function(error, payload){
+        alexa.spoken('exit', function (error, payload) {
+          assert.equal(payload.response.shouldEndSession, true);
+          done();
+        });
+      });
+    });
+  });
 });
 
 
