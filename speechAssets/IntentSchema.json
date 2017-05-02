@@ -1,5 +1,6 @@
 {"intents": [
     {"intent": "AnswerIntent", "slots": [{"name": "Answer", "type": "AMAZON.NUMBER"}]},
+    {"intent": "LevelIntent", "slots": [{"name": "Level", "type": "AMAZON.NUMBER"}]},
     {"intent": "DontKnowIntent"},
     {"intent": "RepeatIntent"},
     {"intent": "UnhandledIntent"},
