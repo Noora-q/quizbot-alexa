@@ -7,8 +7,8 @@ var QUESTION_TOTAL = 5;
 var GOLD_MEDAL = QUESTION_TOTAL;
 var SILVER_MEDAL = 4;
 var BRONZE_MEDAL = 3;
-var LEVEL_PROMPT = 'Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <emphasis level="moderate">Quiz</emphasis>bot..';
-var WELCOME_MESSAGE = 'Welcome to <emphasis level="moderate">Quiz</emphasis>bot.! ' + LEVEL_PROMPT ;
+var LEVEL_PROMPT = 'Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>..';
+var WELCOME_MESSAGE = 'Welcome to <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.! ' + LEVEL_PROMPT ;
 var INSTRUCTIONS_MESSAGE = 'Alright, Let\'s begin. I will give an algebraic equation and your task is to find the value of x.';
 var GENERAL_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that, please repeat.';
 var MENU_UNHANDLED_MESSAGE = 'Sorry, I didn\'t catch that. ' + LEVEL_PROMPT;
@@ -26,7 +26,7 @@ var questions = require('./questions1');
 var currentQuestion;
 var score;
 var usedKeys = [];
-
+var levelId = 1
 var correctAnswerMessages = ['Right!','Correct!', 'That is the right answer!', 'Woohoo!', 'Awesome!', 'Great job!', 'Well done!'];
 var incorrectAnswerMessages = ['Wrong!','Incorrect!','That is not the right answer!', 'That is incorrect!'];
 
@@ -35,17 +35,12 @@ function getQuestion() {
   var keys = Object.keys(questions);
   var rnd = Math.floor(Math.random() * keys.length);
   for ( i = 0; i < usedKeys.length; i++ ){
-    console.log(keys[rnd]);
-    console.log("rnd: ", rnd);
-    console.log("usedKeys[i]: ", usedKeys[i]);
     if (rnd == usedKeys[i]) {
-      console.log("hellothere");
       return getQuestion();
     }
   }
   var key = keys[rnd];
   usedKeys.push(rnd);
-  console.log("Asked question: ", key);
   return key;
 }
 
@@ -108,10 +103,12 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     level = this.event.request.intent.slots.Level.value
     if (level === '1') {
       questions = require('./questions1')
+      levelId = 1
     } else if (level === '2') {
       questions = require('./questions2')
+      levelId = 2
     } else {
-      console.log("needs to be a string")
+      this.emitWithState('AMAZON.HelpIntent')
     }
     this.emitWithState('AMAZON.StartOverIntent')
   },
@@ -121,7 +118,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     questionNumber = 1;
     score = 0;
     this.handler.state = states.TRIVIA;
-    api.getGameSessionId(1, userSessionId, userId, function(gameSessionId2) {
+    api.getGameSessionId(levelId, userSessionId, userId, function(gameSessionId2) {
           gameSessionId = gameSessionId2;
           usedKeys = []
           alexa.emitWithState('QuestionIntent', INSTRUCTIONS_MESSAGE);
@@ -140,7 +137,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     var repromptSpeech = 'To play a new quiz, ' + LEVEL_PROMPT ;
 
     if (questionNumber > QUESTION_TOTAL) {
-      api.sendResults(1, userSessionId, userId, score, gameSessionId, getMedal(score), function() {
+      api.sendResults(levelId, userSessionId, userId, score, gameSessionId, getMedal(score), function() {
         alexa.emit(':askWithCard', message + '! We have just saved your results to mangahigh.', repromptSpeech, cardTitle, cardContent);
       });
     } else {
