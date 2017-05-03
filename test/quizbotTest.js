@@ -204,6 +204,17 @@ describe('playing the quiz (Trivia handlers)', function (done){
       });
     });
   });
+
+  it('can allow the user to ask for help mid game', function(done){
+    alexa.launched(function(error, payload){
+      alexa.intended('LevelIntent', {"Level": "1"}, function(error, payload){
+        alexa.spoken('help', function (error, payload) {
+          assert.include(payload.response.outputSpeech.ssml, 'Your answer must be a number. If you didn\'t hear the question, say repeat. To go back to the main menu, say stop. To quit the game say exit.')
+          done();
+        });
+      });
+    });
+  });
 });
 
 
