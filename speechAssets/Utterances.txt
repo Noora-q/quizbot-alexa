@@ -52,12 +52,12 @@ AMAZON.StopIntent end game
 AMAZON.StopIntent end
 AMAZON.StopIntent end quiz
 
-AMAZON.CancelIntent exit game
-AMAZON.CancelIntent exit
-AMAZON.CancelIntent exit quiz
-AMAZON.CancelIntent quit game
-AMAZON.CancelIntent quit
-AMAZON.CancelIntent quit quiz
+CloseIntent exit game
+CloseIntent exit
+CloseIntent exit quiz
+CloseIntent quit game
+CloseIntent quit
+CloseIntent quit quiz
 
 AMAZON.YesIntent yes
 AMAZON.YesIntent ready

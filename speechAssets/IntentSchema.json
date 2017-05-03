@@ -10,6 +10,6 @@
     {"intent": "AMAZON.YesIntent"},
     {"intent": "AMAZON.NoIntent"},
     {"intent": "AMAZON.StopIntent"},
-    {"intent": "AMAZON.CancelIntent"}
+    {"intent": "CloseIntent"}
   ]
 }

@@ -4,6 +4,8 @@ var sinon = require('sinon');
 var chai = require('chai');
 var spies = require('chai-spies');
 
+var questions1 = require("../src/questions1")
+
 chai.use(spies);
 
 var assert = chai.assert;
@@ -70,6 +72,30 @@ describe('launching the quiz (Menu handlers)', function (done){
     alexa.launched(function(error, payload) {
       alexa.spoken('Start', function (error, payload) {
         assert.include(payload.response.outputSpeech.ssml, 'Alright, Let\'s begin. I will give an algebraic equation and your task is to find the value of x.');
+        done();
+      });
+    });
+  });
+
+  it('asks level 1 questions if the user sets the level to 1 on the menu', function(done) {
+    alexa.launched(function(error, payload) {
+      var keys = Object.keys(questions1)
+      Math.rand = sinon.stub(Math, "random").returns(0/keys.length);
+      alexa.intended('LevelIntent', {"Level": "1"}, function(error, payload) {
+        Math.random.restore()
+        assert.include(payload.response.outputSpeech.ssml, '1x = 1');
+        done();
+      });
+    });
+  });
+
+  it('asks level 2 questions if the user sets the level to 2 on the menu', function(done) {
+    alexa.launched(function(error, payload) {
+      var keys = Object.keys(questions1)
+      Math.rando = sinon.stub(Math, "random").returns(0/keys.length);
+      alexa.intended('LevelIntent', {"Level": "2"}, function(error, payload) {
+        Math.random.restore()
+        assert.include(payload.response.outputSpeech.ssml, '2x + 1 = 5');
         done();
       });
     });
@@ -167,29 +193,25 @@ describe('playing the quiz (Trivia handlers)', function (done){
     });
   });
 
-  it('asks level 1 questions if the user sets the level to 1 on the menu', function(done) {
+
+
+  it('testing stubbing', function(done) {
     alexa.launched(function(error, payload) {
+      var keys = Object.keys(questions1)
+      Math.random = sinon.stub(Math, "random").returns(0/keys.length);
       alexa.intended('LevelIntent', {"Level": "1"}, function(error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'x');
+        Math.random.restore()
+        assert.include(payload.response.outputSpeech.ssml, '1x = 1');
         done();
       });
     });
   });
-
-  it('asks level 2 questions if the user sets the level to 2 on the menu', function(done) {
-    alexa.launched(function(error, payload) {
-      alexa.intended('LevelIntent', {"Level": "2"}, function(error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'x +');
-        done();
-      });
-    });
-  });
-
-
 
 });
 
+describe('playing the quiz (Trivia handlers)', function (done){
 
+});
 // describe('dealing with user answers', function(done){
 //
 //   it('can confirm a correct answer', function (done) {
