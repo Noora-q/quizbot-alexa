@@ -138,9 +138,10 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '1x = 1');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "1"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '1x = 2');
+
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>1x = 2');
             done();
           });
         });
@@ -156,14 +157,14 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '1x = 1');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "1"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '1x = 2');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>1x = 2');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '1x = 3');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>1x = 3');
               done();
             });
           });
@@ -180,19 +181,19 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '1x = 1');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "1"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '1x = 2');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>1x = 2');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '1x = 3');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>1x = 3');
 
               var randomStub3 = sinon.stub(Math, "random").returns(3/keys.length);
-              alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              alexa.intended('AnswerIntent', {"Answer": "3"}, function(error, payload) {
                 randomStub3.restore();
-                assert.include(payload.response.outputSpeech.ssml, '1x = 4');
+                assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 4. <break time="0.35s"/>1x = 4');
                 done();
               });
             });
@@ -210,24 +211,24 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '1x = 1');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "1"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '1x = 2');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>1x = 2');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '1x = 3');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>1x = 3');
 
               var randomStub3 = sinon.stub(Math, "random").returns(3/keys.length);
-              alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              alexa.intended('AnswerIntent', {"Answer": "3"}, function(error, payload) {
                 randomStub3.restore();
-                assert.include(payload.response.outputSpeech.ssml, '1x = 4');
+                assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 4. <break time="0.35s"/>1x = 4');
 
                 var randomStub4 = sinon.stub(Math, "random").returns(4/keys.length);
                 alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
                   randomStub3.restore();
-                  assert.include(payload.response.outputSpeech.ssml, '1x = 5');
+                  assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 5. <break time="0.35s"/>1x = 5');
                   done();
                 });
               });
@@ -247,26 +248,26 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '1x = 1');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "1"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '1x = 2');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>1x = 2');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '1x = 3');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>1x = 3');
 
               var randomStub3 = sinon.stub(Math, "random").returns(3/keys.length);
-              alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+              alexa.intended('AnswerIntent', {"Answer": "3"}, function(error, payload) {
                 randomStub3.restore();
-                assert.include(payload.response.outputSpeech.ssml, '1x = 4');
+                assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 4. <break time="0.35s"/>1x = 4');
 
                 var randomStub4 = sinon.stub(Math, "random").returns(4/keys.length);
                 alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
                   randomStub3.restore();
-                  assert.include(payload.response.outputSpeech.ssml, '1x = 5');
+                  assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 5. <break time="0.35s"/>1x = 5');
 
-                  alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                  alexa.intended('AnswerIntent', {"Answer": "5"}, function(error, payload) {
                     assert.include(payload.response.outputSpeech.ssml, 'You have scored');
                     done();
                   });
@@ -282,7 +283,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
       alexa.launched(function(error, payload){
         alexa.intended('LevelIntent', {"Level": "1"}, function(error, payload){
           alexa.spoken('help', function (error, payload) {
-            assert.include(payload.response.outputSpeech.ssml, 'Your answer must be a number. If you didn\'t hear the question, say repeat. To go back to the main menu, say stop. To quit the game say exit.')
+            assert.include(payload.response.outputSpeech.ssml, 'Your answer must be a number. If you didn\'t hear the question, say repeat. To go back to the main menu, say stop. To quit the game say exit.');
             done();
           });
         });
@@ -307,8 +308,8 @@ describe('playing the quiz (Trivia handlers)', function (done){
   describe('Level 2', function() {
 
     it('can ask the first question', function (done) {
-      var keys1 = Object.keys(questions2);
-      var randomStub = sinon.stub(Math, "random").returns(0/keys1.length);
+      var keys = Object.keys(questions2);
+      var randomStub = sinon.stub(Math, "random").returns(0/keys.length);
       alexa.launched(function(error, payload) {
         alexa.intended('LevelIntent', {"Level": "2"}, function(error, payload) {
           randomStub.restore();
@@ -327,9 +328,10 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '2x + 1 = 5');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '2x + 2 = 8');
+
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>2x + 2 = 8');
             done();
           });
         });
@@ -345,14 +347,14 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '2x + 1 = 5');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '2x + 2 = 8');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>2x + 2 = 8');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "3"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '2x + 4 = 12');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>2x + 4 = 12');
               done();
             });
           });
@@ -369,19 +371,19 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '2x + 1 = 5');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '2x + 2 = 8');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>2x + 2 = 8');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "3"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '2x + 4 = 12');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>2x + 4 = 12');
 
               var randomStub3 = sinon.stub(Math, "random").returns(3/keys.length);
               alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
                 randomStub3.restore();
-                assert.include(payload.response.outputSpeech.ssml, '2x + 6 = 16');
+                assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 4. <break time="0.35s"/>2x + 6 = 16');
                 done();
               });
             });
@@ -399,24 +401,24 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '2x + 1 = 5');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '2x + 2 = 8');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>2x + 2 = 8');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "3"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '2x + 4 = 12');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>2x + 4 = 12');
 
               var randomStub3 = sinon.stub(Math, "random").returns(3/keys.length);
               alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
                 randomStub3.restore();
-                assert.include(payload.response.outputSpeech.ssml, '2x + 6 = 16');
+                assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 4. <break time="0.35s"/>2x + 6 = 16');
 
                 var randomStub4 = sinon.stub(Math, "random").returns(4/keys.length);
-                alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                alexa.intended('AnswerIntent', {"Answer": "5"}, function(error, payload) {
                   randomStub3.restore();
-                  assert.include(payload.response.outputSpeech.ssml, '2x + 10 = 24');
+                  assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 5. <break time="0.35s"/>2x + 10 = 24');
                   done();
                 });
               });
@@ -436,26 +438,26 @@ describe('playing the quiz (Trivia handlers)', function (done){
           assert.include(payload.response.outputSpeech.ssml, '2x + 1 = 5');
 
           var randomStub1 = sinon.stub(Math, "random").returns(1/keys.length);
-          alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+          alexa.intended('AnswerIntent', {"Answer": "2"}, function(error, payload) {
             randomStub1.restore();
-            assert.include(payload.response.outputSpeech.ssml, '2x + 2 = 8');
+            assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 2. <break time="0.35s"/>2x + 2 = 8');
 
             var randomStub2 = sinon.stub(Math, "random").returns(2/keys.length);
-            alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+            alexa.intended('AnswerIntent', {"Answer": "3"}, function(error, payload) {
               randomStub2.restore();
-              assert.include(payload.response.outputSpeech.ssml, '2x + 4 = 12');
+              assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 3. <break time="0.35s"/>2x + 4 = 12');
 
               var randomStub3 = sinon.stub(Math, "random").returns(3/keys.length);
               alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
                 randomStub3.restore();
-                assert.include(payload.response.outputSpeech.ssml, '2x + 6 = 16');
+                assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 4. <break time="0.35s"/>2x + 6 = 16');
 
                 var randomStub4 = sinon.stub(Math, "random").returns(4/keys.length);
-                alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                alexa.intended('AnswerIntent', {"Answer": "5"}, function(error, payload) {
                   randomStub3.restore();
-                  assert.include(payload.response.outputSpeech.ssml, '2x + 10 = 24');
+                  assert.include(payload.response.outputSpeech.ssml, 'Yay! Question 5. <break time="0.35s"/>2x + 10 = 24');
 
-                  alexa.intended('AnswerIntent', {"Answer": "4"}, function(error, payload) {
+                  alexa.intended('AnswerIntent', {"Answer": "7"}, function(error, payload) {
                     assert.include(payload.response.outputSpeech.ssml, 'You have scored');
                     done();
                   });
@@ -471,7 +473,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
       alexa.launched(function(error, payload){
         alexa.intended('LevelIntent', {"Level": "2"}, function(error, payload){
           alexa.spoken('help', function (error, payload) {
-            assert.include(payload.response.outputSpeech.ssml, 'Your answer must be a number. If you didn\'t hear the question, say repeat. To go back to the main menu, say stop. To quit the game say exit.')
+            assert.include(payload.response.outputSpeech.ssml, 'Your answer must be a number. If you didn\'t hear the question, say repeat. To go back to the main menu, say stop. To quit the game say exit.');
             done();
           });
         });

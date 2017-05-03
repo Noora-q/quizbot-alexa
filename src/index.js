@@ -8,7 +8,7 @@ var helpers = require('./helpers');
 var APP_ID = undefined;
 var QUESTION_TOTAL = 5;
 
-var correctAnswerMessages = ['Yay', 'Right answer!','Correct!', 'Woo hoo!', 'Awesome!', 'Great job!', 'Well done!', 'Oh no! Just kidding. Great!',
+var correctAnswerMessages = ['Yay!', 'Right answer!','Correct!', 'Woo hoo!', 'Awesome!', 'Great job!', 'Well done!', 'Oh no! Just kidding. Great!',
 'Kaching', 'Way to go!', 'Wowza!', 'Booya!', 'Hurray!', 'Bingo!', 'Hip hip hooray!', 'Bazinga!', 'Whee!', 'Bravo!', 'Cha ching!', 'All righty'];
 
 var incorrectAnswerMessages = ['Wrong answer!','Incorrect!', 'That is incorrect!', 'Oh boy!', 'Whoops a daisy!', 'Dun dun dun!', 'Argh!', 'Aw!',
