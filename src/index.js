@@ -112,7 +112,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     }
   },
 
-  "AMAZON.CancelIntent": function() {
+  "CloseIntent": function() {
     this.emit(':tell', messages.EXIT_MESSAGE);
   },
 
@@ -134,7 +134,7 @@ var triviaHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
 
   "AnswerIntent": function() {
     var guessAnswer = this.event.request.intent.slots.Answer.value;
-    var correctAnswer = questions[currentQuestion][0];
+    var correctAnswer = questions[currentQuestion];
     if (guessAnswer === correctAnswer) {
       score++;
       if (questionNumber > QUESTION_TOTAL) {
