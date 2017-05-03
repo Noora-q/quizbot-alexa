@@ -41,9 +41,8 @@ afterEach(function(done) {
 
 describe('launching the quiz (Menu handlers)', function (done){
 
-  it.only('launches and then asks user choose a level', function (done) {
+  it('launches and then asks user choose a level', function (done) {
     alexa.launched(function (error, payload) {
-      console.log(payload)
       assert.include(payload.response.outputSpeech.ssml, 'Welcome to <emphasis level="reduced">quiz bot</emphasis>! Say level one for beginner. Say level two for intermediate, or <break time="0.05s"/>say exit to close <phoneme alphabet="ipa" ph="kwɪz.bɒt">Quizbot</phoneme>.');
       done();
     });
@@ -180,7 +179,7 @@ describe('playing the quiz (Trivia handlers)', function (done){
   it('asks level 2 questions if the user sets the level to 2 on the menu', function(done) {
     alexa.launched(function(error, payload) {
       alexa.intended('LevelIntent', {"Level": "2"}, function(error, payload) {
-        assert.include(payload.response.outputSpeech.ssml, 'plus');
+        assert.include(payload.response.outputSpeech.ssml, 'x +');
         done();
       });
     });
