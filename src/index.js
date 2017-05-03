@@ -112,7 +112,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     }
   },
 
-  "CloseIntent": function() {
+  "AMAZON.CancelIntent": function() {
     this.emit(':tell', messages.EXIT_MESSAGE);
   },
 
