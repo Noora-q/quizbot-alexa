@@ -1,22 +1,14 @@
 var bst = require('bespoken-tools');
-
 var sinon = require('sinon');
 var chai = require('chai');
-var spies = require('chai-spies');
-
 var questions1 = require("../src/questions1");
 var questions2 = require("../src/questions2");
 
-chai.use(spies);
-
 var assert = chai.assert;
-var should = chai.should();
 var expect = chai.expect;
 
 var server = null;
 var alexa = null;
-
-
 
 beforeEach(function (done) {
   server = new bst.LambdaServer('index.js', 10000, true);
@@ -69,7 +61,6 @@ describe('launching the quiz (Menu handlers)', function (done){
     });
   });
 
-  //redundant?
   it('can reply with a start message when the user wants to start the game', function (done) {
     alexa.launched(function(error, payload) {
       alexa.spoken('Start', function (error, payload) {
@@ -493,43 +484,4 @@ describe('playing the quiz (Trivia handlers)', function (done){
     });
 
   });
-
-
-
 });
-
-
-
-// it('testing stubbing', function(done) {
-//   alexa.launched(function(error, payload) {
-//     var keys = Object.keys(questions1);
-//     Math.random = sinon.stub(Math, "random").returns(0/keys.length);
-//     alexa.intended('LevelIntent', {"Level": "1"}, function(error, payload) {
-//       Math.random.restore();
-//       assert.include(payload.response.outputSpeech.ssml, '1x = 1');
-//       done();
-//     });
-//   });
-// });
-
-
-
-// describe('dealing with user answers', function(done){
-//
-//   it('can confirm a correct answer', function (done) {
-//     alexa.launched(function(error, payload) {
-//       alexa.spoken('Start', function (error, payload) {
-//         alexa.spoken('Yes', function (error, payload){
-//           alexa.spoken('Answer', function (error, payload){
-//             // console.log('PURPLE')
-//             // console.log(payload)
-//             // console.log('guessAnswer')
-//             // // console.log(parseInt(this.event.request.intent.slots.number.value))
-//             assert.include(payload.response.outputSpeech.ssml, 'That is correct.')
-//             done();
-//           });
-//         });
-//       });
-//     });
-//   });
-// });

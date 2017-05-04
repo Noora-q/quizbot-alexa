@@ -30,6 +30,9 @@ var levelId = 1;
 var userId;
 var userSessionId;
 var gameSessionId;
+var schoolLoginId = 10;
+var userLoginId = 1;
+var userLoginPassword = 'gorilla652';
 
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
@@ -43,21 +46,21 @@ var handlers =  {
   "LaunchRequest": function() {
     var alexa = this;
     this.handler.state = states.MENU;
-    api.login(10, 1, "gorilla652", function (playerId, sessionId) {
-        userId = playerId;
-        userSessionId = sessionId;
-        alexa.emitWithState('NewSession');
-      }
-    );
-  },
+    api.login(schoolLoginId, userLoginId, userLoginPassword, function (playerId, sessionId) {
+      userId = playerId;
+      userSessionId = sessionId;
+      alexa.emitWithState('NewSession');
+    }
+  );
+},
 
-  "UnhandledIntent": function() {
-    this.emit(':ask', messages.GENERAL_UNHANDLED_MESSAGE);
-  },
+"UnhandledIntent": function() {
+  this.emit(':ask', messages.GENERAL_UNHANDLED_MESSAGE);
+},
 
-  "Unhandled": function() {
-    this.emit(':ask', messages.GENERAL_UNHANDLED_MESSAGE);
-  }
+"Unhandled": function() {
+  this.emit(':ask', messages.GENERAL_UNHANDLED_MESSAGE);
+}
 };
 
 var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
@@ -86,43 +89,43 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
     score = 0;
     this.handler.state = states.TRIVIA;
     api.getGameSessionId(levelId, userSessionId, userId, function(gameSessionId2) {
-          gameSessionId = gameSessionId2;
-          usedKeys = [];
-          alexa.emitWithState('QuestionIntent', messages.INSTRUCTIONS_MESSAGE);
-      }
-    );
-  },
-
-  "AMAZON.HelpIntent": function() {
-    this.emit(':ask', messages.MENU_HELP_MESSAGE);
-  },
-
-  "MenuIntent": function(message) {
-    var alexa = this;
-    var cardTitle = 'Quizbot Results Card';
-    var cardContent = 'This will be sent to the user';
-    var repromptSpeech = 'To play a new quiz, ' + messages.LEVEL_PROMPT ;
-
-    if (questionNumber > QUESTION_TOTAL) {
-      api.sendResults(levelId, userSessionId, userId, score, gameSessionId, helpers.getMedal(score), function() {
-        alexa.emit(':askWithCard', message + '! We have just saved your results to mangahigh.', repromptSpeech, cardTitle, cardContent);
-      });
-    } else {
-      alexa.emit(':ask', messages.MENU_HELP_MESSAGE);
+      gameSessionId = gameSessionId2;
+      usedKeys = [];
+      alexa.emitWithState('QuestionIntent', messages.INSTRUCTIONS_MESSAGE);
     }
-  },
+  );
+},
 
-  "AMAZON.CancelIntent": function() {
-    this.emit(':tell', messages.EXIT_MESSAGE);
-  },
+"AMAZON.HelpIntent": function() {
+  this.emit(':ask', messages.MENU_HELP_MESSAGE);
+},
 
-  "UnhandledIntent": function() {
-    this.emit(':ask', messages.MENU_UNHANDLED_MESSAGE);
-  },
+"MenuIntent": function(message) {
+  var alexa = this;
+  var cardTitle = 'Quizbot Results Card';
+  var cardContent = 'This will be sent to the user';
+  var repromptSpeech = 'To play a new quiz, ' + messages.LEVEL_PROMPT ;
 
-  "Unhandled": function() {
-    this.emit(':ask', messages.MENU_UNHANDLED_MESSAGE);
+  if (questionNumber > QUESTION_TOTAL) {
+    api.sendResults(levelId, userSessionId, userId, score, gameSessionId, helpers.getMedal(score), function() {
+      alexa.emit(':askWithCard', message + '! We have just saved your results to mangahigh.', repromptSpeech, cardTitle, cardContent);
+    });
+  } else {
+    alexa.emit(':ask', messages.MENU_HELP_MESSAGE);
   }
+},
+
+"AMAZON.CancelIntent": function() {
+  this.emit(':tell', messages.EXIT_MESSAGE);
+},
+
+"UnhandledIntent": function() {
+  this.emit(':ask', messages.MENU_UNHANDLED_MESSAGE);
+},
+
+"Unhandled": function() {
+  this.emit(':ask', messages.MENU_UNHANDLED_MESSAGE);
+}
 });
 
 var triviaHandlers = Alexa.CreateStateHandler(states.TRIVIA, {
