@@ -19,7 +19,7 @@ Technologies used:
 * Request
 
 ### How to
-This app can be downloaded from the Alexa store. To have a look at the code, clone or fork the repo. Testing is set under 'npm test' in the command line when in the src folder. Details on how to deploy the skill to AWS Lambda can be found on the [Amazon documentation](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/deploying-a-sample-skill-to-aws-lambda).
+Quizbot is an educational quiz app designed for children (and adults) to study algebra. This app will soon be available for download from the Alexa store. If you get stuck, say 'help' at anytime for instructions. On completing a game, log into the Mangahigh website to see your progress. To have a look at the code, clone or fork the repo. Testing is set under 'npm test' in the command line when in the src folder. Details on how to deploy the skill to AWS Lambda can be found on the [Amazon documentation](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/deploying-a-sample-skill-to-aws-lambda).
 
 ### Testing
 One of the main struggles with the project was testing. Due to modernity and uniqueness of the technology, testing documentation was hard to find. After thoroughly discussing the theories of possible ways to mimic and test Alexa, we settled on using [Mocha](https://github.com/mochajs/mocha) and [Chai](https://github.com/chaijs/chai) to test Alexa's behaviour by monitoring her JSON responses. [Bespoken Tools](https://github.com/bespoken) allowed us to replicate the Lambda server, and [Sinon](https://github.com/sinonjs/sinon) allowed us to mock our project and test Ajax requests. This has meant that we've been able to TDD our project as well as getting very high test coverage compared to a lot of public Alexa apps.
@@ -34,7 +34,7 @@ Following [US Census Bureau data](http://voicebot.ai/2017/04/14/gartner-predicts
 Quizbot is an ever-evolving project. We plan to improve its features by adding more categories and subjects, and make a more complex scoring system that takes time answering questions into account. We are also interested in adding a more competitive element by allowing users to play head-to-head, and adding a more detailed and analytical transcript of the quiz on completion so that users can go back and review their previous games to gain better insight on what to improve.
 
 Diagram of Alexa's behaviour:
-![Diagram](/diagram.png)
+![Diagram](/diagram2.png)
 
 ### User Stories
 
