@@ -103,7 +103,7 @@ var menuHandlers = Alexa.CreateStateHandler(states.MENU, {
 "MenuIntent": function(message) {
   var alexa = this;
   var cardTitle = 'Quizbot Results Card';
-  var cardContent = 'This will be sent to the user';
+  var cardContent = 'Your score for this quiz was ' + score + '/' + QUESTION_TOTAL + '. Please log in to Mangahigh to check your progess.';
   var repromptSpeech = 'To play a new quiz, ' + messages.LEVEL_PROMPT ;
 
   if (questionNumber > QUESTION_TOTAL) {
