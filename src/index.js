@@ -9,10 +9,10 @@ var APP_ID = undefined;
 var QUESTION_TOTAL = 5;
 
 var correctAnswerMessages = ['Yay!', 'Right answer!','Correct!', 'Woo hoo!', 'Awesome!', 'Great job!', 'Well done!', 'Oh no! Just kidding. Great!',
-'Kaching', 'Way to go!', 'Wowza!', 'Booya!', 'Hurray!', 'Bingo!', 'Hip hip hooray!', 'Bazinga!', 'Whee!', 'Bravo!', 'Cha ching!', 'All righty'];
+'Kaching!', 'Way to go!', 'Wowza!', 'Booya!', 'Hurray!', 'Bingo!', 'Hip hip hooray!', 'Bazinga!', 'Whee!', 'Bravo!', 'Cha ching!', 'All righty!'];
 
 var incorrectAnswerMessages = ['Wrong answer!','Incorrect!', 'That is incorrect!', 'Oh boy!', 'Whoops a daisy!', 'Dun dun dun!', 'Argh!', 'Aw!',
-'Uh oh!', 'Oh dear!', 'Eek!', 'Ouch', 'Oh no!'];
+'Uh oh!', 'Oh dear!', 'Eek!', 'Ouch!', 'Oh no!'];
 
 var states = {
   TRIVIA: "_TRIVIAMODE",
@@ -31,8 +31,8 @@ var userId;
 var userSessionId;
 var gameSessionId;
 var schoolLoginId = 10;
-var userLoginId = 1;
-var userLoginPassword = 'gorilla652';
+var userLoginId = 3;
+var userLoginPassword = 'panda677';
 
 exports.handler = function(event, context, callback){
   var alexa_one = Alexa.handler(event, context);
